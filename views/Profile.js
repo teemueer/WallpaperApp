@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { Card, Button } from "@rneui/base";
@@ -5,7 +6,8 @@ import { Card, Button } from "@rneui/base";
 const Profile = () => {
   const { setLoggedIn } = useContext(MainContext);
 
-  const logout = () => {
+  const logout = async () => {
+    await AsyncStorage.setItem("userToken", "");
     setLoggedIn(false);
   };
 
