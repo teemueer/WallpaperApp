@@ -12,7 +12,15 @@ const useUser = () => {
     }
   };
 
-  return { getUserByToken };
+  const getUserAvatar = async (tag) => {
+    return await myFetch(`${baseUrl}/tags/${tag}`)
+  }
+
+  const getUserPosts = async (token) => {
+
+  }
+
+  return { getUserByToken, getUserAvatar};
 };
 
 export default useUser;
