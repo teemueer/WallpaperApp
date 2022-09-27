@@ -17,8 +17,8 @@ const Login = ({ navigation }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      username: "teemu",
-      password: "salasana2",
+      username: "",
+      password: "",
     },
   });
 
