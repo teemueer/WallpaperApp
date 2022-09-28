@@ -1,10 +1,13 @@
 import { Card, Input, Button, Text } from "@rneui/base";
+import { useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
-import useRegister from "../hooks/RegisterApi";
 import { Alert } from "react-native";
+import { MainContext } from "../contexts/MainContext";
+import useUser from "../hooks/UserApi";
 
 const Register = ({ navigation }) => {
-  const { postUser, checkUsername } = useRegister();
+  const { postUser, checkUsername } = useUser();
+  const { setUser, setLoggedIn } = useContext(MainContext);
 
   const {
     control,
@@ -26,6 +29,8 @@ const Register = ({ navigation }) => {
       console.log(userCredentials);
       const registerUser = await postUser(userCredentials);
       if (registerUser) {
+        setUser(registerUser);
+        setLoggedIn(registerUser);
         Alert.alert("Success", "Account has been created");
         navigation.navigate("Login");
       }

@@ -2,9 +2,6 @@ import { Button, Card } from "@rneui/base";
 import { useEffect, useState } from "react";
 import useTag from "../hooks/TagApi";
 import MediaList from "../components/MediaList";
-import { Logs } from "expo";
-
-Logs.enableExpoCliLogging();
 
 const Home = ({ navigation }) => {
   const { getMediaByTag } = useTag();
