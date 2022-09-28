@@ -7,6 +7,7 @@ import Profile from "../views/Profile";
 import Register from "../views/Register";
 import Search from "../views/Search";
 import Upload from "../views/Upload";
+import Single from "../views/Single";
 import { Button, Icon } from "@rneui/base";
 import { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";
@@ -20,6 +21,7 @@ const TabScreenUser = ({ navigation }) => {
       <Tab.Screen
         name="Home"
         component={Home}
+        navigation={navigation}
         options={{
           tabBarIcon: () => <Icon name="home" />,
         }}
@@ -99,6 +101,7 @@ const StackScreen = () => {
           options={{ headerShown: false }}
         />
       )}
+      <Stack.Screen name="Single" component={Single} />
     </Stack.Navigator>
   );
 };

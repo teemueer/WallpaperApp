@@ -78,7 +78,7 @@ const Login = ({ navigation }) => {
             value={value}
             placeholder="password"
             autoCapitalize="none"
-            secureTextEntry={false}
+            secureTextEntry={true}
             errorMessage={
               errors.password && <Text>This field is required.</Text>
             }
