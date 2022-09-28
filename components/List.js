@@ -6,8 +6,8 @@ import ListItem from './ListItem';
 
 
 
-const List = () => {
-    const {userMedia} = fetchUserMedia();
+const List = ({mediaToggle = false}) => {
+    const {userMedia} = fetchUserMedia(mediaToggle);
     return(
         <FlatList
             data={userMedia}
