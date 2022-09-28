@@ -1,50 +1,69 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useContext, useEffect, useState } from "react";
 import { MainContext } from "../contexts/MainContext";
-import { Card, Button, Text } from "@rneui/base";
+import { Card, Button, Text, Image } from "@rneui/base";
 import { baseUrl } from "../utils/config";
 import useUser from "../hooks/UserApi";
+import {
+  FlatList,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
+  View,
+} from "react-native";
+import List from "../components/List";
 
-const Profile = () => {
+const Profile = ({ navigate }) => {
   const { setLoggedIn, user } = useContext(MainContext);
-  const {getUserAvatar} = useUser();
-  const [avatar, setAvatar] = useState('')
-
+  const { getUserAvatar } = useUser();
+  const [avatar, setAvatar] = useState("http://placekitten.com/640");
   const logout = async () => {
     await AsyncStorage.setItem("userToken", "");
     setLoggedIn(false);
   };
 
-  const fetchAvatar = async() => {
+  const fetchAvatar = async () => {
     try {
-      const response = await getUserAvatar(`avatar_${user.user_id}`)
+      const response = await getUserAvatar(`avatar_${user.user_id}`);
       const json = response.pop();
-      setAvatar(`${baseUrl}/uploads/${json.filename}`)
+      setAvatar(`${baseUrl}/uploads/${json.filename}`);
     } catch (error) {
-      console.error('fetchAvatar():', error.message);
+      console.error("fetchAvatar():", error.message);
     }
-  }
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchAvatar();
-  }, [])
+  }, []);
 
   return (
-    <Card>
-      <Card.Title>
-        <Text h1>{user.username}</Text>
-        <Card.Image
-        source={{uri:avatar}}
+    <View style={{ display: "flex", flex: 1 }}>
+      <View
         style={{
-          width:'100%',
-          height: undefined,
-          aspectRatio:1,
+          backgroundColor: "red",
+          flexDirection:'row',
+          flex: 1,
         }}
-        />
-      </Card.Title>
+      >
+        <Image source={{ uri: avatar }}
+        style={{height:100,width:100}} />
+        <Text h1 style={{
+        }}>{user.username}</Text>
+      </View>
       <Button title="Logout" onPress={() => logout()} />
-    </Card>
+      <View style={{ backgroundColor: "blue", flex: 2 }}>
+        <List navigation={navigate}></List>
+      </View>
+    </View>
   );
 };
 
 export default Profile;
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 5,
+    height: "65%",
+  },
+});

@@ -16,10 +16,6 @@ const useUser = () => {
     return await myFetch(`${baseUrl}/tags/${tag}`)
   }
 
-  const getUserPosts = async (token) => {
-
-  }
-
   return { getUserByToken, getUserAvatar};
 };
 
