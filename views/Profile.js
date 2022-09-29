@@ -5,10 +5,6 @@ import { Card, Button, Text, Image } from "@rneui/base";
 import { baseUrl } from "../utils/config";
 import useUser from "../hooks/UserApi";
 import {
-  FlatList,
-  SafeAreaView,
-  ScrollView,
-  TouchableOpacity,
   StyleSheet,
   View,
 } from "react-native";
@@ -59,7 +55,13 @@ const Profile = ({ navigate }) => {
         </Text>
       </View>
       <Button title="Logout" onPress={() => logout()} />
+      <View style={{
+        flexDirection:'row',
+        justifyContent:'center',
+      }}>
       <Button title='test' onPress={()=> toggleState()} />
+      <Button title='favourites' onPress={()=>toggleState()} />
+      </View>
       <View style={{ backgroundColor: "blue", flex: 2 }}>
           <List navigation={navigate} mediaToggle={viewState}></List>
       </View>
