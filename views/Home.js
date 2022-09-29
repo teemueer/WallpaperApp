@@ -1,9 +1,19 @@
-import { Card, Button } from "@rneui/base";
+import {SafeAreaView} from 'react-native';
+import List from '../components/List';
+import PropTypes from 'prop-types';
 
-const Home = () => (
-  <Card>
-    <Card.Title>Home</Card.Title>
-  </Card>
-);
+
+const Home = (props) => {
+  const {navigation} = props;
+  return (
+      <SafeAreaView>
+        <List navigation={navigation}/>
+      </SafeAreaView>
+  );
+};
+
+Home.propTypes = {
+  navigation: PropTypes.object,
+};
 
 export default Home;
