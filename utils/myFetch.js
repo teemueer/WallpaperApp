@@ -1,22 +1,23 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const myFetch = async (url, method = "GET", body = null) => {
+const myFetch = async (url, method = "GET", body = null, isJson = true) => {
   try {
     const options = {
       method,
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: {},
     };
 
-    const token = await AsyncStorage.getItem("userToken");
+    if (isJson) {
+      options.headers["Content-Type"] = "application/json";
+    }
 
+    const token = await AsyncStorage.getItem("userToken");
     if (token) {
       options.headers["x-access-token"] = token;
     }
 
     if (body) {
-      options.body = JSON.stringify(body);
+      options.body = isJson ? JSON.stringify(body) : body;
     }
 
     const res = await fetch(url, options);
