@@ -3,7 +3,7 @@ import { baseUrl } from "../utils/config";
 
 const Single = ({ route }) => {
   const { description, filename, title, thumbnails, time_added } =
-    route.params.file.item;
+    route.params.file;
   return (
     <Card>
       <Card.Image

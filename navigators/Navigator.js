@@ -9,42 +9,93 @@ import Search from "../views/Search";
 import Upload from "../views/Upload";
 import Single from "../views/Single";
 import { Button, Icon } from "@rneui/base";
-import { useContext } from "react";
+import { useContext, StyleSheet } from "react";
 import { MainContext } from "../contexts/MainContext";
 import PropTypes from "prop-types";
 
 const Tab = createBottomTabNavigator();
+const iconColor = "white";
 
 const TabScreenUser = ({ navigation }) => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: "#fff",
+        tabBarStyle: {
+          backgroundColor: "rgba(65, 67, 106, 1)",
+          borderTopWidth:0,
+        },
+        
+      }}
+    
+    >
       <Tab.Screen
         name="Home"
         component={Home}
         navigation={navigation}
         options={{
-          tabBarIcon: () => <Icon name="home" />,
+          tabBarIcon: () => <Icon name="home" color={iconColor} />,
+          headerStyle: {
+            backgroundColor:'rgba(65, 67, 106, 1)',
+            borderBottomWidth: 0,
+          },
+          headerTintColor:'#fff',
+          headerTitleStyle: {
+            fontSize:24,
+            fontWeight:'500'
+          },
+          headerShadowVisible:false,
         }}
       />
-      <Tab.Screen
-        name="Profile"
+       <Tab.Screen
+        name="Profile."
         component={Profile}
         options={{
-          tabBarIcon: () => <Icon name="person" />,
+          tabBarIcon: () => <Icon name="person" color={iconColor} />,
+          headerStyle: {
+            backgroundColor:'rgba(65, 67, 106, 1)',
+            borderBottomWidth: 0,
+          },
+          headerTintColor:'#fff',
+          headerTitleStyle: {
+            fontSize:24,
+            fontWeight:'500'
+          },
+          headerShadowVisible:false,
         }}
       />
       <Tab.Screen
         name="Upload"
         component={Upload}
         options={{
-          tabBarIcon: () => <Icon name="cloud-upload" />,
+          tabBarIcon: () => <Icon name="cloud-upload" color={iconColor} />,
+          headerStyle: {
+            backgroundColor:'rgba(65, 67, 106, 1)',
+            borderBottomWidth: 0,
+          },
+          headerTintColor:'#fff',
+          headerTitleStyle: {
+            fontSize:24,
+            fontWeight:'500'
+          },
+          headerShadowVisible:false,
         }}
       />
       <Tab.Screen
         name="Search"
         component={Search}
         options={{
-          tabBarIcon: () => <Icon name="search" />,
+          tabBarIcon: () => <Icon name="search" color={iconColor} />,
+          headerStyle: {
+            backgroundColor:'rgba(65, 67, 106, 1)',
+            borderBottomWidth: 0,
+          },
+          headerTintColor:'#fff',
+          headerTitleStyle: {
+            fontSize:24,
+            fontWeight:'500'
+          },
+          headerShadowVisible:false,
         }}
       />
     </Tab.Navigator>

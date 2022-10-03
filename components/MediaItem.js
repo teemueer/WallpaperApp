@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { TouchableOpacity, Image, Text } from "react-native";
 
 const MediaItem = ({ navigation, item }) => {
@@ -8,7 +8,9 @@ const MediaItem = ({ navigation, item }) => {
       onPress={() => navigation.navigate("Single", { media: item })}
     >
       <Image style={styles.image} source={{ uri: item.uri }} />
-      <Text style={styles.title}>{item.title}</Text>
+      <View style={styles.title}>
+      <Text>{item.title}</Text>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -18,6 +20,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     margin: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+
+    elevation: 8,
   },
   image: {
     width: "100%",
@@ -32,8 +43,11 @@ const styles = StyleSheet.create({
     height: 50,
     fontWeight: "bold",
     textAlign: "center",
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    borderBottomLeftRadius:20,
+    borderBottomRightRadius:20,
+    flex:1,
+    alignItems:'center',
+    justifyContent:'center'
   },
 });
 
