@@ -1,5 +1,4 @@
 import useUser from "../hooks/UserApi";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import useLogin from "../hooks/LoginApi";
 
 const UserTest = async () => {
