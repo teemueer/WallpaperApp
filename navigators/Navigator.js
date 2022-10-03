@@ -21,6 +21,7 @@ const TabScreenUser = ({ navigation }) => {
       <Tab.Screen
         name="Home"
         component={Home}
+        navigation={navigation}
         options={{
           tabBarIcon: () => <Icon name="home" />,
         }}
@@ -100,7 +101,7 @@ const StackScreen = () => {
           options={{ headerShown: false }}
         />
       )}
-      <Stack.Screen name="Single" component={Single}/>
+      <Stack.Screen name="Single" component={Single} />
     </Stack.Navigator>
   );
 };

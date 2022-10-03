@@ -1,9 +1,22 @@
-import { Card, Button } from "@rneui/base";
+import { Button, Card } from "@rneui/base";
+import { useEffect, useState } from "react";
+import useTag from "../hooks/TagApi";
+import MediaList from "../components/MediaList";
 
-const Home = () => (
-  <Card>
-    <Card.Title>Home</Card.Title>
-  </Card>
-);
+const Home = ({ navigation }) => {
+  const { getMediaByTag } = useTag();
+  const [media, setMedia] = useState([]);
+
+  useEffect(() => {
+    getMediaByTag().then((media) => setMedia(media));
+  }, []);
+
+  return (
+    <Card>
+      <Card.Title>Home</Card.Title>
+      {media ? <MediaList media={media} navigation={navigation} /> : null}
+    </Card>
+  );
+};
 
 export default Home;
