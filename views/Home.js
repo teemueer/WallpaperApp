@@ -2,6 +2,7 @@ import { Button, Card } from "@rneui/base";
 import { useEffect, useState } from "react";
 import useTag from "../hooks/TagApi";
 import MediaList from "../components/MediaList";
+//import FavouriteTest from "../hookTests/FavouritesTest";
 //import RatingTest from "../hookTests/RatingTest";
 //import TagTest from "../hookTests/TagTest";
 //import UserTest from "../hookTests/UserTest";
@@ -15,6 +16,7 @@ const Home = ({ navigation }) => {
   //UserTest();
   //TagTest();
   //RatingTest();
+  //FavouriteTest();
 
   useEffect(() => {
     getMediaByTag().then((media) => setMedia(media));
