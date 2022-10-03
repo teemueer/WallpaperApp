@@ -12,15 +12,52 @@ const useUser = () => {
     }
   };
 
-
   const getUserAvatar = async (tag) => {
     return await myFetch(`${baseUrl}/tags/${tag}`);
-  }
+  };
 
   const postUser = async (userCredentials) => {
     try {
       const json = await myFetch(`${baseUrl}/users`, "POST", userCredentials);
-      console.log("PostUser()", json);
+      return json;
+    } catch (error) {
+      console.error("postUser():", error.message);
+    }
+  };
+
+  // doesnt seem to work
+  /*
+  const deleteUser = async (user_id) => {
+    try {
+      const json = await myFetch(`${baseUrl}/users/${user_id}`, "DELETE");
+      return json;
+    } catch (error) {
+      console.error("postUser():", error.message);
+    }
+  };
+  */
+
+  const modifyUser = async (data) => {
+    try {
+      const json = await myFetch(`${baseUrl}/users`, "PUT", data);
+      return json;
+    } catch (error) {
+      console.error("postUser():", error.message);
+    }
+  };
+
+  const getUserById = async (id) => {
+    try {
+      const json = await myFetch(`${baseUrl}/users/${id}`, "GET");
+      return json;
+    } catch (error) {
+      console.error("postUser():", error.message);
+    }
+  };
+
+  const getUsers = async () => {
+    try {
+      const json = await myFetch(`${baseUrl}/users`, "GET");
       return json;
     } catch (error) {
       console.error("postUser():", error.message);
@@ -29,16 +66,23 @@ const useUser = () => {
 
   const checkUsername = async (username) => {
     try {
-      const response = await myFetch(`${baseUrl}/users/username/${username}`);
-      if (response.available) {
-        return response.available;
-      }
+      const res = await myFetch(`${baseUrl}/users/username/${username}`);
+      return res.available;
     } catch (error) {
       console.error("checkUsername():", error.message);
     }
   };
 
-  return { getUserByToken, getUserAvatar, postUser, checkUsername };
+  return {
+    getUserByToken,
+    getUserAvatar,
+    postUser,
+    checkUsername,
+    /*deleteUser,*/
+    modifyUser,
+    getUserById,
+    getUsers,
+  };
 };
 
 export default useUser;
