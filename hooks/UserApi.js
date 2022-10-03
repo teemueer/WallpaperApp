@@ -13,7 +13,11 @@ const useUser = () => {
   };
 
   const getUserAvatar = async (tag) => {
-    return await myFetch(`${baseUrl}/tags/${tag}`);
+    try {
+      return await myFetch(`${baseUrl}/tags/${tag}`);
+    } catch (error) {
+      throw new Error(error.message);
+    }
   };
 
   const postUser = async (userCredentials) => {
@@ -21,7 +25,7 @@ const useUser = () => {
       const json = await myFetch(`${baseUrl}/users`, "POST", userCredentials);
       return json;
     } catch (error) {
-      console.error("postUser():", error.message);
+      throw new Error(error.message);
     }
   };
 
@@ -32,7 +36,7 @@ const useUser = () => {
       const json = await myFetch(`${baseUrl}/users/${user_id}`, "DELETE");
       return json;
     } catch (error) {
-      console.error("postUser():", error.message);
+      throw new Error(error.message);
     }
   };
   */
@@ -42,7 +46,7 @@ const useUser = () => {
       const json = await myFetch(`${baseUrl}/users`, "PUT", data);
       return json;
     } catch (error) {
-      console.error("postUser():", error.message);
+      throw new Error(error.message);
     }
   };
 
@@ -51,7 +55,7 @@ const useUser = () => {
       const json = await myFetch(`${baseUrl}/users/${id}`, "GET");
       return json;
     } catch (error) {
-      console.error("postUser():", error.message);
+      throw new Error(error.message);
     }
   };
 
@@ -60,7 +64,7 @@ const useUser = () => {
       const json = await myFetch(`${baseUrl}/users`, "GET");
       return json;
     } catch (error) {
-      console.error("postUser():", error.message);
+      throw new Error(error.message);
     }
   };
 
@@ -69,7 +73,7 @@ const useUser = () => {
       const res = await myFetch(`${baseUrl}/users/username/${username}`);
       return res.available;
     } catch (error) {
-      console.error("checkUsername():", error.message);
+      throw new Error(error.message);
     }
   };
 

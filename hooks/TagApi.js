@@ -19,7 +19,7 @@ const useTag = () => {
       const json = await myFetch(`${baseUrl}/tags`, "POST", data);
       return json;
     } catch (error) {
-      console.error("postUser():", error.message);
+      throw new Error(error.message);
     }
   };
 
@@ -28,7 +28,7 @@ const useTag = () => {
       const json = await myFetch(`${baseUrl}/tags/file/${file_id}`, "GET");
       return json;
     } catch (error) {
-      console.error("postUser():", error.message);
+      throw new Error(error.message);
     }
   };
 
@@ -37,7 +37,7 @@ const useTag = () => {
       const json = await myFetch(`${baseUrl}/tags`, "GET");
       return json;
     } catch (error) {
-      console.error("postUser():", error.message);
+      throw new Error(error.message);
     }
   };
 
