@@ -12,6 +12,11 @@ const useUser = () => {
     }
   };
 
+
+  const getUserAvatar = async (tag) => {
+    return await myFetch(`${baseUrl}/tags/${tag}`);
+  }
+
   const postUser = async (userCredentials) => {
     try {
       const json = await myFetch(`${baseUrl}/users`, "POST", userCredentials);
@@ -33,7 +38,7 @@ const useUser = () => {
     }
   };
 
-  return { getUserByToken, postUser, checkUsername };
+  return { getUserByToken, getUserAvatar, postUser, checkUsername };
 };
 
 export default useUser;
