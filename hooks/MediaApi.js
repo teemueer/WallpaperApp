@@ -11,6 +11,11 @@ const useMedia = () => {
       json.map(async (item) => await getMediaById(item.file_id))
     );
 
+    return json.map((item) => ({
+      ...item,
+      uri: `${baseUrl}/uploads/${item.filename}`,
+    }));
+
     json.sort((a, b) => (a.time_added > b.time_added ? -1 : 1));
 
     return json;
@@ -115,6 +120,7 @@ const useMedia = () => {
     searchMedia,
     updateMediaById,
     postMedia,
+    getMediaDetailsAndSort,
   };
 };
 
