@@ -5,6 +5,17 @@ import { baseUrl } from "../utils/config";
 import myFetch from "../utils/myFetch";
 
 const useMedia = () => {
+  // helper function
+  const getMediaDetailsAndSort = async (json) => {
+    json = await Promise.all(
+      json.map(async (item) => await getMediaById(item.file_id))
+    );
+
+    json.sort((a, b) => (a.time_added > b.time_added ? -1 : 1));
+
+    return json;
+  };
+
   const getMediaById = async (id) => {
     try {
       const json = await myFetch(`${baseUrl}/media/${id}`, "GET");
@@ -25,7 +36,8 @@ const useMedia = () => {
 
   const getAllMedia = async () => {
     try {
-      const json = await myFetch(`${baseUrl}/media/all`, "GET");
+      let json = await myFetch(`${baseUrl}/media/all`, "GET");
+      //json = await getMediaDetailsAndSort(json);
       return json;
     } catch (error) {
       throw new Error(error.message);
@@ -34,7 +46,8 @@ const useMedia = () => {
 
   const getMediaByUserId = async (user_id) => {
     try {
-      const json = await myFetch(`${baseUrl}/media/user/${user_id}`, "GET");
+      let json = await myFetch(`${baseUrl}/media/user/${user_id}`, "GET");
+      json = await getMediaDetailsAndSort(json);
       return json;
     } catch (error) {
       throw new Error(error.message);
@@ -43,7 +56,8 @@ const useMedia = () => {
 
   const getMyMedia = async () => {
     try {
-      const json = await myFetch(`${baseUrl}/media/user`, "GET");
+      let json = await myFetch(`${baseUrl}/media/user`, "GET");
+      json = await getMediaDetailsAndSort(json);
       return json;
     } catch (error) {
       throw new Error(error.message);
@@ -52,10 +66,11 @@ const useMedia = () => {
 
   const getMedia = async (offset = 0, limit = 20) => {
     try {
-      const json = await myFetch(
+      let json = await myFetch(
         `${baseUrl}/media?start=${start}&limit=${limit}`,
         "GET"
       );
+      json = await getMediaDetailsAndSort(json);
       return json;
     } catch (error) {
       throw new Error(error.message);
@@ -64,7 +79,8 @@ const useMedia = () => {
 
   const searchMedia = async (data) => {
     try {
-      const json = await myFetch(`${baseUrl}/media/search`, "POST", data);
+      let json = await myFetch(`${baseUrl}/media/search`, "POST", data);
+      json = await getMediaDetailsAndSort(json);
       return json;
     } catch (error) {
       throw new Error(error.message);
@@ -137,4 +153,4 @@ const fetchUserMedia = (mediaToggle) => {
   return { userMedia };
 };
 
-export default /*useMedia*/ fetchUserMedia;
+export default useMedia /*, fetchUserMedia*/;
