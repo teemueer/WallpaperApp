@@ -5,7 +5,7 @@ const MediaItem = ({ navigation, item }) => {
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => navigation.navigate("Single", { media: item })}
+      onPress={() => navigation.navigate("Single", { file: item })}
     >
       <Image style={styles.image} source={{ uri: item.uri }} />
       <Text style={styles.title}>{item.title}</Text>
