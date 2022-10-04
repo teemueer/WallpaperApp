@@ -20,8 +20,6 @@ const myFetch = async (url, method = "GET", body = null, isJson = true) => {
       options.body = isJson ? JSON.stringify(body) : body;
     }
 
-    console.log(options);
-
     const res = await fetch(url, options);
     const json = await res.json();
 
