@@ -1,7 +1,10 @@
+import {useContext} from "react";
+import {MainContext} from "../contexts/MainContext";
 import { baseUrl } from "../utils/config";
 import myFetch from "../utils/myFetch";
 
 const useUser = () => {
+  const {user, setAvatar} = useContext(MainContext);
   const getUserByToken = async () => {
     try {
       console.log("getUserByToken");
@@ -12,9 +15,10 @@ const useUser = () => {
     }
   };
 
-  const getUserAvatar = async (tag) => {
+  const getUserAvatar = async () => {
     try {
-      return await myFetch(`${baseUrl}/tags/${tag}`);
+      const avatar =  await myFetch(`${baseUrl}/tags/avatar_${user.user_id}`);
+      setAvatar(`${baseUrl}/uploads/${avatar[0].filename}`);
     } catch (error) {
       throw new Error(error.message);
     }

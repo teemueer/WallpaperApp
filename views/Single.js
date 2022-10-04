@@ -2,10 +2,10 @@ import { Card, Text } from "@rneui/base";
 import { baseUrl } from "../utils/config";
 
 const Single = ({ route }) => {
-  console.log(route.params.file);
+  console.log(route.params);
+  const { filename, title, thumbnails, time_added } =
+    route.params.media;
 
-  const { description, filename, title, thumbnails, time_added } =
-    route.params.file;
   return (
     <Card>
       <Card.Image
@@ -16,6 +16,7 @@ const Single = ({ route }) => {
       ></Card.Image>
     </Card>
   );
+
 };
 
 export default Single;
