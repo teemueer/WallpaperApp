@@ -8,6 +8,9 @@ import useTag from "./TagApi";
 const useMedia = () => {
   const { getMediaByTag, getTagsByFileId } = useTag();
 
+  const [allMedia, setAllMedia] = useState([]);
+  const [allTags, setAllTags] = useState([]);
+
   const getMediaDetailsAndSort = async (json) => {
     // get file details
     json = await Promise.all(
@@ -124,7 +127,18 @@ const useMedia = () => {
     }
   };
 
+  useEffect(() => {
+    getAllMedia().then((allMedia) => {
+      setAllMedia(allMedia);
+      let allTags = [];
+      for (const media of allMedia) allTags = allTags.concat(media.tags);
+      setAllTags(allTags);
+    });
+  }, []);
+
   return {
+    allMedia,
+    allTags,
     getMediaById,
     deleteMediaById,
     getAllMedia,
@@ -165,10 +179,6 @@ const fetchUserMedia = (mediaToggle) => {
       console.error("loadUserPosts():", error.message);
     }
   };
-
-  useEffect(() => {
-    loadUserPosts();
-  }, [mediaToggle]);
 
   return { userMedia };
 };
