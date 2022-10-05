@@ -127,6 +127,16 @@ const useMedia = () => {
     }
   };
 
+  const filterMediaByTag = (tagWanted) => {
+    const filteredMedia = allMedia.filter((media) => {
+      for (const tag of media.tags) {
+        if (tag.name === tagWanted) return media;
+      }
+    });
+    console.log(filteredMedia);
+    return filteredMedia;
+  };
+
   useEffect(() => {
     getAllMedia().then((allMedia) => {
       setAllMedia(allMedia);
@@ -149,6 +159,7 @@ const useMedia = () => {
     updateMediaById,
     postMedia,
     getMediaDetailsAndSort,
+    filterMediaByTag,
   };
 };
 
