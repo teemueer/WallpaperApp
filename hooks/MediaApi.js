@@ -21,8 +21,8 @@ const useMedia = () => {
     json = await Promise.all(
       json.map(async (item) => {
         let tags = await getTagsByFileId(item.file_id);
-        tags = tags.map((tag) => ({ id: tag.tag_id, name: tag.tag }));
-        return { ...item, tags: tags.filter((tag) => tag.name !== mainTag) };
+        tags = tags.map((tag) => tag.tag);
+        return { ...item, tags: tags.filter((tag) => tag !== mainTag) };
       })
     );
 
@@ -127,13 +127,10 @@ const useMedia = () => {
     }
   };
 
-  const filterMediaByTag = (tagWanted) => {
-    const filteredMedia = allMedia.filter((media) => {
-      for (const tag of media.tags) {
-        if (tag.name === tagWanted) return media;
-      }
-    });
-    console.log(filteredMedia);
+  const filterMediaByTags = (tags) => {
+    const filteredMedia = allMedia.filter((media) =>
+      tags.every((tag) => media.tags.includes(tag))
+    );
     return filteredMedia;
   };
 
@@ -142,10 +139,10 @@ const useMedia = () => {
       setAllMedia(allMedia);
       let allTags = [];
       for (const media of allMedia) {
-        for (const tag of media.tags) allTags = allTags.concat(tag.name);
+        for (const tag of media.tags) allTags = allTags.concat(tag);
       }
       allTags = new Set(allTags);
-      setAllTags([...allTags]);
+      setAllTags([...allTags].sort());
     });
   }, []);
 
@@ -162,7 +159,7 @@ const useMedia = () => {
     updateMediaById,
     postMedia,
     getMediaDetailsAndSort,
-    filterMediaByTag,
+    filterMediaByTags,
   };
 };
 

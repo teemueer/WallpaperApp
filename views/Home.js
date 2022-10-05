@@ -21,10 +21,9 @@ const Home = ({ navigation }) => {
   //MediaTest();
 
   return (
-    <Card>
-      <Card.Title>Home</Card.Title>
+    <>
       {allMedia ? <MediaList media={allMedia} navigation={navigation} /> : null}
-    </Card>
+    </>
   );
 };
 
