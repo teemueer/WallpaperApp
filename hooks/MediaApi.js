@@ -1,21 +1,35 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext, useEffect, useState } from "react";
 import { MainContext } from "../contexts/MainContext";
-import { baseUrl } from "../utils/config";
+import { baseUrl, mainTag } from "../utils/config";
 import myFetch from "../utils/myFetch";
+import useTag from "./TagApi";
 
 const useMedia = () => {
-  // helper function
+  const { getMediaByTag, getTagsByFileId } = useTag();
+
   const getMediaDetailsAndSort = async (json) => {
+    // get file details
     json = await Promise.all(
       json.map(async (item) => await getMediaById(item.file_id))
     );
 
-    return json.map((item) => ({
+    // get file tags
+    json = await Promise.all(
+      json.map(async (item) => {
+        let tags = await getTagsByFileId(item.file_id);
+        tags = tags.map((tag) => ({ id: tag.tag_id, name: tag.tag }));
+        return { ...item, tags: tags.filter((tag) => tag.name !== mainTag) };
+      })
+    );
+
+    // add uri to the object
+    json = json.map((item) => ({
       ...item,
       uri: `${baseUrl}/uploads/${item.filename}`,
     }));
 
+    // sort by date
     json.sort((a, b) => (a.time_added > b.time_added ? -1 : 1));
 
     return json;
@@ -41,8 +55,8 @@ const useMedia = () => {
 
   const getAllMedia = async () => {
     try {
-      let json = await myFetch(`${baseUrl}/media/all`, "GET");
-      //json = await getMediaDetailsAndSort(json);
+      let json = await getMediaByTag(mainTag);
+      json = await getMediaDetailsAndSort(json);
       return json;
     } catch (error) {
       throw new Error(error.message);
