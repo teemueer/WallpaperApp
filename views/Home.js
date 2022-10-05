@@ -1,7 +1,7 @@
 import { Button, Card } from "@rneui/base";
 import { useEffect, useState } from "react";
-import useTag from "../hooks/TagApi";
 import MediaList from "../components/MediaList";
+import useMedia from "../hooks/MediaApi";
 
 //import MediaTest from "../hookTests/MediaTest";
 //import FavouriteTest from "../hookTests/FavouritesTest";
@@ -11,8 +11,7 @@ import MediaList from "../components/MediaList";
 //import CommentTest from "../hookTests/CommentTest";
 
 const Home = ({ navigation }) => {
-  const { getMediaByTag } = useTag();
-  const [media, setMedia] = useState([]);
+  const { allMedia, allTags } = useMedia();
 
   //CommentTest();
   //UserTest();
@@ -21,14 +20,14 @@ const Home = ({ navigation }) => {
   //FavouriteTest();
   //MediaTest();
 
-  useEffect(() => {
-    getMediaByTag().then((media) => setMedia(media));
-  }, []);
+  for (const media of allMedia) {
+    if (media.tags.length > 0) console.log(media.tags);
+  }
 
   return (
     <Card>
       <Card.Title>Home</Card.Title>
-      {media ? <MediaList media={media} navigation={navigation} /> : null}
+      {allMedia ? <MediaList media={allMedia} navigation={navigation} /> : null}
     </Card>
   );
 };
