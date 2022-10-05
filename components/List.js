@@ -2,7 +2,7 @@ import {FlatList} from 'react-native';
 import ListItem from './ListItem';
 import {useContext} from 'react';
 import {MainContext} from '../contexts/MainContext';
-import {useMedia} from '../hooks/useMedia';
+import useMedia from '../hooks/useMedia';
 import PropTypes from 'prop-types';
 
 
