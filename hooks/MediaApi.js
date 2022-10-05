@@ -141,8 +141,11 @@ const useMedia = () => {
     getAllMedia().then((allMedia) => {
       setAllMedia(allMedia);
       let allTags = [];
-      for (const media of allMedia) allTags = allTags.concat(media.tags);
-      setAllTags(allTags);
+      for (const media of allMedia) {
+        for (const tag of media.tags) allTags = allTags.concat(tag.name);
+      }
+      allTags = new Set(allTags);
+      setAllTags([...allTags]);
     });
   }, []);
 

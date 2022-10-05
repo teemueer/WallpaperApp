@@ -21,7 +21,7 @@ const Search = ({ navigation }) => {
   const search = async (event) => {
     const tagToSearch = event.nativeEvent.text;
     if (tagToSearch.length > 0) {
-      const tags = allTags.filter((tag) => tag.name.includes(tagToSearch));
+      const tags = allTags.filter((tag) => tag.includes(tagToSearch));
       setTags(tags);
     } else {
       setTags([]);
@@ -66,8 +66,8 @@ const Search = ({ navigation }) => {
 
       <Card.Divider />
 
-      {tags.map((tag) => (
-        <Tag key={tag.id} tag={tag.name} onPress={toggleTag} />
+      {tags.map((tag, idx) => (
+        <Tag key={idx} tag={tag} onPress={toggleTag} />
       ))}
 
       <Card.Divider />
