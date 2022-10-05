@@ -14,25 +14,22 @@ const Tag = ({ tag, onPress }) => (
 );
 
 const Search = ({ navigation }) => {
-  const { searchTags, getMediaByTag } = useTag();
+  const { allTags, filterMediaByTag } = useMedia();
   const [tags, setTags] = useState([]);
   const [media, setMedia] = useState([]);
 
   const search = async (event) => {
-    event.preventDefault();
-
-    const tag = event.nativeEvent.text;
-    if (tag.length < 3) {
+    const tagToSearch = event.nativeEvent.text;
+    if (tagToSearch.length > 0) {
+      const tags = allTags.filter((tag) => tag.name.includes(tagToSearch));
+      setTags(tags);
+    } else {
       setTags([]);
-      return;
     }
-
-    const tags = await searchTags(tag);
-    setTags(tags);
   };
 
-  const toggleTag = async (tag) => {
-    const media = await getMediaByTag(tag);
+  const toggleTag = (tag) => {
+    const media = filterMediaByTag(tag);
     setMedia(media);
     setTags([]);
   };
@@ -69,8 +66,8 @@ const Search = ({ navigation }) => {
 
       <Card.Divider />
 
-      {tags.map((tag, idx) => (
-        <Tag key={idx} tag={tag} onPress={toggleTag} />
+      {tags.map((tag) => (
+        <Tag key={tag.id} tag={tag.name} onPress={toggleTag} />
       ))}
 
       <Card.Divider />

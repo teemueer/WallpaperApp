@@ -20,10 +20,6 @@ const Home = ({ navigation }) => {
   //FavouriteTest();
   //MediaTest();
 
-  for (const media of allMedia) {
-    if (media.tags.length > 0) console.log(media.tags);
-  }
-
   return (
     <Card>
       <Card.Title>Home</Card.Title>
