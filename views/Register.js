@@ -141,6 +141,8 @@ const Register = ({ navigation }) => {
         name="confirmPassword"
       />
       <Button title={"Register"} onPress={handleSubmit(register)} />
+      <Button title={"Login"} onPress={()=>navigation.navigate('Login')} />
+
     </Card>
   );
 };

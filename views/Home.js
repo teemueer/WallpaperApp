@@ -4,7 +4,7 @@ import useTag from "../hooks/TagApi";
 import MediaList from "../components/MediaList";
 import useUser from "../hooks/UserApi";
 import { View } from "react-native";
-
+import styles from "../styles/Home.style";
 //import MediaTest from "../hookTests/MediaTest";
 //import FavouriteTest from "../hookTests/FavouritesTest";
 //import RatingTest from "../hookTests/RatingTest";
@@ -30,22 +30,10 @@ const Home = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={{ backgroundColor: "rgba(65, 67, 106, 1)" }}>
-      <View
-        style={{
-          backgroundColor: "white",
-          borderTopRightRadius: 45,
-          borderTopLeftRadius: 45,
-          marginTop: 18,
-          paddingTop: 15,
-        }}
-      >
-        <View>
-          <Card.Title style={{ fontSize: 24 }}>Home</Card.Title>
-        </View>
-        <View>
-          {media ? <MediaList media={media} navigation={navigation} /> : null}
-        </View>
+    <View style={styles.background}>
+      <View style={styles.feed}>
+        <Card.Title style={styles.text}>Home</Card.Title>
+        {media ? <MediaList media={media} navigation={navigation} /> : null}
       </View>
     </View>
   );

@@ -143,6 +143,7 @@ const TabScreenGuest = ({ navigation }) => {
               onPress={() => navigation.navigate("Login")}
             />
           ),
+          headerShown:false
         }}
       />
       <Tab.Screen
