@@ -10,7 +10,7 @@ const Upload = ({ navigation }) => {
   const [image, setImage] = useState(null);
   const { postMedia } = useMedia();
 
-  //const { update, setUpdate } = useContext(MainContext);
+  const { update, setUpdate } = useContext(MainContext);
   const [isLoading, setIsLoading] = useState(false);
 
   const onUpload = async (data) => {
@@ -31,7 +31,7 @@ const Upload = ({ navigation }) => {
           text: "Ok",
           onPress: () => {
             resetForm();
-            //setUpdate(!update);
+            setUpdate(!update);
             navigation.navigate("Home");
           },
         },
@@ -45,9 +45,9 @@ const Upload = ({ navigation }) => {
 
   const onSelect = async () => {
     const res = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      //allowsEditing: true,
+      //aspect: [4, 3],
       quality: 0.5,
     });
 

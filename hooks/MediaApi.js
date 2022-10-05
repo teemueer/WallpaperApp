@@ -6,10 +6,12 @@ import myFetch from "../utils/myFetch";
 import useTag from "./TagApi";
 
 const useMedia = () => {
-  const { getMediaByTag, getTagsByFileId } = useTag();
+  const { getMediaByTag, getTagsByFileId, postTag } = useTag();
 
   const [allMedia, setAllMedia] = useState([]);
   const [allTags, setAllTags] = useState([]);
+
+  const { update } = useContext(MainContext);
 
   const getMediaDetailsAndSort = async (json) => {
     // get file details
@@ -121,6 +123,7 @@ const useMedia = () => {
   const postMedia = async (data) => {
     try {
       const json = await myFetch(`${baseUrl}/media`, "POST", data, false);
+      await postTag({ file_id: json.file_id, tag: mainTag });
       return json;
     } catch (error) {
       throw new Error(error.message);
@@ -144,7 +147,7 @@ const useMedia = () => {
       allTags = new Set(allTags);
       setAllTags([...allTags].sort());
     });
-  }, []);
+  }, [update]);
 
   return {
     allMedia,
