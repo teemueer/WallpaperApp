@@ -5,6 +5,7 @@ import useUser from "../hooks/UserApi";
 import { View } from "react-native";
 import styles from "../styles/Home.style";
 import useMedia from "../hooks/MediaApi";
+import useTag from "../hooks/TagApi";
 
 const Home = ({ navigation }) => {
   const { getMediaByTag } = useTag();
@@ -13,7 +14,7 @@ const Home = ({ navigation }) => {
   const { allMedia, allTags } = useMedia();
 
   useEffect(() => {
-    getMediaByTag().then((media) => setMedia(media));
+    //getMediaByTag().then((media) => setMedia(media));
     getUserAvatar();
   }, []);
 
@@ -21,7 +22,9 @@ const Home = ({ navigation }) => {
     <View style={styles.background}>
       <View style={styles.feed}>
         <Card.Title style={styles.text}>Home</Card.Title>
-        {media ? <MediaList media={media} navigation={navigation} /> : null}
+        {allMedia ? (
+          <MediaList media={allMedia} navigation={navigation} />
+        ) : null}
       </View>
     </View>
   );
