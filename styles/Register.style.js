@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 
-
 export default StyleSheet.create({
   container: {
     width: "100%",
@@ -32,8 +31,8 @@ export default StyleSheet.create({
     borderRadius: 10,
     height: 60,
     width: "70%",
-    marginBottom: "10%",
-    paddingTop: 12,
+    marginBottom: "5%",
+    paddingTop: 5,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -48,7 +47,7 @@ export default StyleSheet.create({
     flex: 1, flexDirection: "row" 
   },
   buttonStyle:{
-    height: 60,
+    height: 50,
               width: 140,
               borderRadius: 10,
               shadowColor: "#000",
@@ -62,6 +61,6 @@ export default StyleSheet.create({
               elevation: 6,
   },
   buttonText:{
-    color: "white", fontSize: 24, fontWeight: "bold" ,
+    color: "white", fontSize: 18, fontWeight: "bold" 
   }
 });

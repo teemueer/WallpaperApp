@@ -10,7 +10,6 @@ import styles from "../styles/Login.style";
 
 const Login = ({ navigation }) => {
   const { setUser, setLoggedIn } = useContext(MainContext);
-
   const { getUserByToken } = useUser();
   const { postLogin } = useLogin();
 
@@ -71,6 +70,7 @@ const Login = ({ navigation }) => {
             rules={{ required: true }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Input
+                style={{}}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -114,7 +114,7 @@ const Login = ({ navigation }) => {
             color="#984063"
             style={styles.buttonStyle}
           >
-            <Text style={styles.buttonText} >Log In</Text>
+            <Text style={styles.buttonText}>Log In</Text>
           </Button>
         </View>
         <View style={{ marginLeft: 10 }}>

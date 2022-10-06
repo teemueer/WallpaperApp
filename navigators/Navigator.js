@@ -12,7 +12,7 @@ import { Button, Icon } from "@rneui/base";
 import { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";
 import PropTypes from "prop-types";
-import { Image } from "react-native";
+import { Image, TouchableOpacity } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const iconColor = "white";
@@ -60,6 +60,7 @@ const TabScreenUser = ({ navigation }) => {
             />
           ),
           headerRight: () => (
+            <TouchableOpacity onPress={()=>navigation.navigate('Profile')}>
             <Image
               source={{ uri: avatar }}
               style={{
@@ -72,11 +73,12 @@ const TabScreenUser = ({ navigation }) => {
                 marginRight: 20,
               }}
             />
+            </TouchableOpacity>
           ),
         }}
       />
       <Tab.Screen
-        name="Profile."
+        name="Profile"
         component={Profile}
         options={{
           tabBarIcon: () => <Icon name="person" color={iconColor} />,
@@ -90,6 +92,7 @@ const TabScreenUser = ({ navigation }) => {
             fontWeight: "500",
           },
           headerShadowVisible: false,
+          title:'Profile.'
         }}
       />
       <Tab.Screen
@@ -156,6 +159,7 @@ const TabScreenGuest = ({ navigation }) => {
               onPress={() => navigation.navigate("Register")}
             />
           ),
+          headerShown:false
         }}
       />
     </Tab.Navigator>
