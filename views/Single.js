@@ -11,6 +11,11 @@ import {
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
 
+import {useFonts} from 'expo-font'
+import { Nunito_700Bold_Italic  } from '@expo-google-fonts/nunito'
+import { Karla_400Regular } from '@expo-google-fonts/karla'
+import {styles} from '../styles/Single.style'
+
 const Single = ({ route }) => {
   const file = route.params.file;
   const [modalVisible, setModalVisible] = useState(false);
