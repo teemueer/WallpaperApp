@@ -1,21 +1,50 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext, useEffect, useState } from "react";
 import { MainContext } from "../contexts/MainContext";
-import { baseUrl } from "../utils/config";
+import { baseUrl, mainTag } from "../utils/config";
 import myFetch from "../utils/myFetch";
+import useTag from "./TagApi";
+import useUser from "./UserApi";
 
 const useMedia = () => {
-  // helper function
+  const { getMediaByTag, getTagsByFileId, postTag } = useTag();
+  const { getUserById } = useUser();
+
+  const [allMedia, setAllMedia] = useState([]);
+  const [allTags, setAllTags] = useState([]);
+
+  const { update } = useContext(MainContext);
+
   const getMediaDetailsAndSort = async (json) => {
+    // get file details
     json = await Promise.all(
       json.map(async (item) => await getMediaById(item.file_id))
     );
 
-    return json.map((item) => ({
+    // get file tags
+    json = await Promise.all(
+      json.map(async (item) => {
+        let tags = await getTagsByFileId(item.file_id);
+        tags = tags.map((tag) => tag.tag);
+        return { ...item, tags: tags.filter((tag) => tag !== mainTag) };
+      })
+    );
+
+    // get user info
+    json = await Promise.all(
+      json.map(async (item) => {
+        let user = await getUserById(item.user_id);
+        return { ...item, user };
+      })
+    );
+
+    // add uri to the object
+    json = json.map((item) => ({
       ...item,
       uri: `${baseUrl}/uploads/${item.filename}`,
     }));
 
+    // sort by date
     json.sort((a, b) => (a.time_added > b.time_added ? -1 : 1));
 
     return json;
@@ -41,8 +70,8 @@ const useMedia = () => {
 
   const getAllMedia = async () => {
     try {
-      let json = await myFetch(`${baseUrl}/media/all`, "GET");
-      //json = await getMediaDetailsAndSort(json);
+      let json = await getMediaByTag(mainTag);
+      json = await getMediaDetailsAndSort(json);
       return json;
     } catch (error) {
       throw new Error(error.message);
@@ -104,13 +133,35 @@ const useMedia = () => {
   const postMedia = async (data) => {
     try {
       const json = await myFetch(`${baseUrl}/media`, "POST", data, false);
+      await postTag({ file_id: json.file_id, tag: mainTag });
       return json;
     } catch (error) {
       throw new Error(error.message);
     }
   };
 
+  const filterMediaByTags = (tags) => {
+    const filteredMedia = allMedia.filter((media) =>
+      tags.every((tag) => media.tags.includes(tag))
+    );
+    return filteredMedia;
+  };
+
+  useEffect(() => {
+    getAllMedia().then((allMedia) => {
+      setAllMedia(allMedia);
+      let allTags = [];
+      for (const media of allMedia) {
+        for (const tag of media.tags) allTags = allTags.concat(tag);
+      }
+      allTags = new Set(allTags);
+      setAllTags([...allTags].sort());
+    });
+  }, [update]);
+
   return {
+    allMedia,
+    allTags,
     getMediaById,
     deleteMediaById,
     getAllMedia,
@@ -121,7 +172,7 @@ const useMedia = () => {
     updateMediaById,
     postMedia,
     getMediaDetailsAndSort,
+    filterMediaByTags,
   };
 };
 
-export default useMedia;

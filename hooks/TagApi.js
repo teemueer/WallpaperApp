@@ -1,14 +1,10 @@
 import { baseUrl, mainTag } from "../utils/config";
 import myFetch from "../utils/myFetch";
-import useMedia from "./MediaApi";
 
 const useTag = () => {
-  const { getMediaDetailsAndSort } = useMedia();
-
-  const getMediaByTag = async (tag = mainTag) => {
+  const getMediaByTag = async (tag) => {
     try {
-      let json = await myFetch(`${baseUrl}/tags/${tag}`, "GET");
-      json = await getMediaDetailsAndSort(json);
+      let json = await myFetch(`${baseUrl}/tags/${mainTag}`, "GET");
       return json;
     } catch (error) {
       throw new Error(error.message);
@@ -35,7 +31,7 @@ const useTag = () => {
 
   const getTags = async () => {
     try {
-      const json = await myFetch(`${baseUrl}/tags`, "GET");
+      let json = await myFetch(`${baseUrl}/tags`, "GET");
       return json;
     } catch (error) {
       throw new Error(error.message);

@@ -1,28 +1,16 @@
 import { Card } from "@rneui/base";
 import { useEffect, useState } from "react";
-import useTag from "../hooks/TagApi";
 import MediaList from "../components/MediaList";
 import useUser from "../hooks/UserApi";
 import { View } from "react-native";
 import styles from "../styles/Home.style";
-//import MediaTest from "../hookTests/MediaTest";
-//import FavouriteTest from "../hookTests/FavouritesTest";
-//import RatingTest from "../hookTests/RatingTest";
-//import TagTest from "../hookTests/TagTest";
-//import UserTest from "../hookTests/UserTest";
-//import CommentTest from "../hookTests/CommentTest";
+import useMedia from "../hooks/MediaApi";
 
 const Home = ({ navigation }) => {
   const { getMediaByTag } = useTag();
   const { getUserAvatar } = useUser();
   const [media, setMedia] = useState([]);
-
-  //CommentTest();
-  //UserTest();
-  //TagTest();
-  //RatingTest();
-  //FavouriteTest();
-  //MediaTest();
+  const { allMedia, allTags } = useMedia();
 
   useEffect(() => {
     getMediaByTag().then((media) => setMedia(media));

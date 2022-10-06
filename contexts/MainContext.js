@@ -6,10 +6,14 @@ export const MainContext = React.createContext();
 export const MainProvider = (props) => {
   const [user, setUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
+
   const [avatar, setAvatar] = useState("http://placekitten.com/640");
+  const [update, setUpdate] = useState(false);
 
   return (
-    <MainContext.Provider value={{ user, setUser, loggedIn, setLoggedIn, avatar, setAvatar }}>
+    <MainContext.Provider
+      value={{ user, setUser, loggedIn, setLoggedIn, update, setUpdate, avatar, setAvatar }}
+    >
       {props.children}
     </MainContext.Provider>
   );
