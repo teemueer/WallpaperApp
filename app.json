@@ -26,6 +26,15 @@
         "backgroundColor": "#FFFFFF"
       }
     },
+    "plugins": [
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos.",
+          "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos."
+        }
+      ]
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
     }

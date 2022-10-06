@@ -4,9 +4,11 @@ import { MainContext } from "../contexts/MainContext";
 import { baseUrl, mainTag } from "../utils/config";
 import myFetch from "../utils/myFetch";
 import useTag from "./TagApi";
+import useUser from "./UserApi";
 
 const useMedia = () => {
   const { getMediaByTag, getTagsByFileId, postTag } = useTag();
+  const { getUserById } = useUser();
 
   const [allMedia, setAllMedia] = useState([]);
   const [allTags, setAllTags] = useState([]);
@@ -25,6 +27,14 @@ const useMedia = () => {
         let tags = await getTagsByFileId(item.file_id);
         tags = tags.map((tag) => tag.tag);
         return { ...item, tags: tags.filter((tag) => tag !== mainTag) };
+      })
+    );
+
+    // get user info
+    json = await Promise.all(
+      json.map(async (item) => {
+        let user = await getUserById(item.user_id);
+        return { ...item, user };
       })
     );
 
