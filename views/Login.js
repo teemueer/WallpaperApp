@@ -7,6 +7,7 @@ import useLogin from "../hooks/LoginApi";
 import { View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import styles from "../styles/Login.style";
+import Wall from '../assets/Images/wall.svg'
 
 const Login = ({ navigation }) => {
   const { setUser, setLoggedIn } = useContext(MainContext);
@@ -52,10 +53,7 @@ const Login = ({ navigation }) => {
     <View style={styles.container}>
       <LinearGradient colors={["#41436A", "#984063"]} style={styles.gradient} />
       <View style={styles.imageContainer}>
-        <Image
-          source={require("../assets/Images/Logo.png")}
-          style={styles.image}
-        ></Image>
+        <Wall></Wall>
       </View>
       <View
         style={{

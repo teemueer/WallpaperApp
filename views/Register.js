@@ -6,6 +6,8 @@ import { MainContext } from "../contexts/MainContext";
 import { LinearGradient } from "expo-linear-gradient";
 import useUser from "../hooks/UserApi";
 import styles from "../styles/Register.style";
+import Wall from '../assets/Images/wall.svg'
+
 
 const Register = ({ navigation }) => {
   const { postUser, checkUsername } = useUser();
@@ -45,10 +47,7 @@ const Register = ({ navigation }) => {
     <View style={styles.container}>
       <LinearGradient colors={["#41436A", "#984063"]} style={styles.gradient} />
       <View style={styles.imageContainer}>
-        <Image
-          source={require("../assets/Images/Logo.png")}
-          style={styles.image}
-        ></Image>
+        <Wall/>
       </View>
       <View
         style={{
