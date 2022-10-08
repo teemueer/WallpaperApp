@@ -5,10 +5,12 @@ import { baseUrl, mainTag } from "../utils/config";
 import myFetch from "../utils/myFetch";
 import useTag from "./TagApi";
 import useUser from "./UserApi";
+import useRating from './RatingApi';
 
 const useMedia = () => {
   const { getMediaByTag, getTagsByFileId, postTag } = useTag();
   const { getUserById } = useUser();
+  const { getRatingsByFileId } = useRating();
 
   const [allMedia, setAllMedia] = useState([]);
   const [allTags, setAllTags] = useState([]);
@@ -29,6 +31,25 @@ const useMedia = () => {
         return { ...item, tags: tags.filter((tag) => tag !== mainTag) };
       })
     );
+
+    // get file average rating
+    json = await Promise.all(
+      json.map(async (item) => {
+        const ratings = await getRatingsByFileId(item.file_id);
+        const rating = ratings.length ? ratings.reduce((acc, obj) => acc + obj.rating, 0) / ratings.length : null;
+        return { ...item, rating: rating };
+      })
+    );
+
+    // get file favourites
+    json = await Promise.all(
+      json.map(async (item) => {
+        const ratings = await getRatingsByFileId(item.file_id);
+        const rating = ratings.length ? ratings.reduce((acc, obj) => acc + obj.rating, 0) / ratings.length : null;
+        return { ...item, rating: rating };
+      })
+    );
+
 
     // get user info
     json = await Promise.all(
