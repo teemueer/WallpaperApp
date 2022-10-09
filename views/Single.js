@@ -1,24 +1,37 @@
-import { useState } from "react";
-import { Linking, StyleSheet, Alert } from "react-native";
+import { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  Alert,
+  SafeAreaView,
+} from "react-native";
 import {
   View,
   Image,
   Text,
   TouchableOpacity,
   Modal,
-  Button,
 } from "react-native";
+import useComment from "../hooks/CommentApi";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
+import CommentList from "../components/CommentList";
+import Download from "../assets/Images/download.svg";
+import Comment from "../assets/Images/comment.svg";
+import ArrowDown from "../assets/Images/arrowDown.svg";
 
-import { useFonts } from "expo-font";
-import { Nunito_700Bold_Italic } from "@expo-google-fonts/nunito";
-import { Karla_400Regular } from "@expo-google-fonts/karla";
-//import {styles} from '../styles/Single.style'
+//!TODO: CLean styles, TextInput to add comment, comment Logic
 
 const Single = ({ route }) => {
   const file = route.params.file;
   const [modalVisible, setModalVisible] = useState(false);
+  const [inputVisible, setInputVisible] = useState(false);
+  const [comments, setComments] = useState([]);
+  const { getCommentsByFileId } = useComment();
+  console.log(file);
+
+  useEffect(() => {
+    getCommentsByFileId(file.file_id).then((comment) => setComments(comment));
+  }, []);
 
   const download = async () => {
     try {
@@ -36,14 +49,59 @@ const Single = ({ route }) => {
     }
   };
 
+
+  /*
+  <View style={styles.info}>
+          <View style={{ flexDirection: "row" }}>
+            <View style={{ flex: 1, paddingLeft:10, paddingTop:2,}}>
+              <Text style={styles.title}>{file.title}</Text>
+              <Text style={styles.author}>Posted by: {file.user.username}</Text>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                paddingRight:20,
+              }}
+            >
+              <TouchableOpacity onPress={() => download()}>
+                <Download width={25} height={25} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setInputVisible(!inputVisible)}>
+                <Comment width={25} height={25} style={{ marginLeft: 20 }} />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <Text style={styles.description}>{file.description}</Text>
+        </View>*/
+
+
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Modal
         animationType="slide"
         visible={modalVisible}
         onRequestClose={() => setModalVisible(!modalVisible)}
       >
-        <Image style={styles.image} source={{ uri: file.uri }} />
+        <View>
+          <Image style={styles.image} source={{ uri: file.uri }}></Image>
+          <TouchableOpacity
+            style={{ position: "absolute", bottom: "10%", left: "42%" }}
+            onPress={() => setModalVisible(!modalVisible)}
+          >
+            <ArrowDown width={50} height={50}></ArrowDown>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        visible={inputVisible}
+        onRequestClose={() => setInputVisible(!inputVisible)}
+      >
+        <Text>Hello</Text>
       </Modal>
 
       <View style={styles.single}>
@@ -51,16 +109,47 @@ const Single = ({ route }) => {
           style={styles.image_container}
           onPress={() => setModalVisible(!modalVisible)}
         >
-          <Image style={styles.image} source={{ uri: file.uri }} />
+          <Image style={[styles.image]} source={{ uri: file.uri }} />
         </TouchableOpacity>
-        <View style={styles.info}>
-          <Text style={styles.title}>{file.title}</Text>
-          <Text style={styles.author}>Posted by: {file.user.username}</Text>
-          <Text style={styles.description}>{file.description}</Text>
-          <Button title="Download" onPress={() => download()} />
+        <View style={{
+          height:100, position:'absolute', width:'100%', backgroundColor: "rgba(65, 67, 106, 0.7)",
+          top:'80%'
+        }}>
+          <View style={{ flexDirection: "row" }}>
+            <View style={{ flex: 1, paddingLeft:10, paddingTop:2,}}>
+              <Text style={styles.title}>{file.title}</Text>
+              <Text style={styles.author}>Posted by: {file.user.username}</Text>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                paddingRight:20,
+              }}
+            >
+              <TouchableOpacity onPress={() => download()}>
+                <Download width={25} height={25} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setInputVisible(!inputVisible)}>
+                <Comment width={25} height={25} style={{ marginLeft: 20 }} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+        
+      </View>
+      <View style={{ flex: 1, alignItems: "center", backgroundColor:'white',borderTopRightRadius:45,
+      }}>
+        <Text style={{ alignSelf: "center", marginTop:'2%' }}>
+          Comments:
+        </Text>
+        <View style={{ width: "90%", height:'90%' }}>
+          <CommentList comments={comments}></CommentList>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -68,17 +157,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+    backgroundColor: "rgba(65, 67, 106, 1)",
   },
   single: {
-    margin: 30,
-    borderRadius: 30,
+    margin: 0,
+    borderRadius: 0,
     overflow: "hidden",
     flex: 1,
     flexDirection: "column",
     alignItems: "center",
   },
   image_container: {
-    flex: 4,
+    flex: 3,
     width: "100%",
   },
   image: {
@@ -88,7 +178,7 @@ const styles = StyleSheet.create({
   info: {
     flex: 1,
     width: "100%",
-    backgroundColor: "#41436A",
+    backgroundColor: "rgba(65, 67, 106,2)",
     paddingHorizontal: 5,
   },
   title: {

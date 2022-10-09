@@ -6,12 +6,15 @@ import { TouchableOpacity, View } from "react-native";
 import styles from "../styles/Profile.style";
 import ProfilePosts from "../components/ProfilePosts";
 import ProfileFavourites from "../components/ProfileFavourite";
+
+//SVG imports
 import LogOut from "../assets/Images/logout.svg";
 import Account from "../assets/Images/account.svg";
 import Heart from "../assets/Images/blackHeart.svg";
 import ImageGallery from "../assets/Images/imageGalleryBlack.svg";
 import RedHeart from "../assets/Images/redHeart.svg";
 import Settings from '../assets/Images/Setting.svg'
+import ImageGalleryPurple from '../assets/Images/galleryPurple.svg'
 
 const Profile = ({ navigation }) => {
   const { setLoggedIn, user, avatar } = useContext(MainContext);
@@ -77,7 +80,7 @@ const Profile = ({ navigation }) => {
 
           {toggle ? (
             <TouchableOpacity onPress={() => toggleState()}>
-              <ImageGallery width={30} height={30}></ImageGallery>
+              <ImageGalleryPurple width={30} height={30}></ImageGalleryPurple>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={() => toggleState()}>
