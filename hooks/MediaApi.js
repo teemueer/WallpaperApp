@@ -41,16 +41,6 @@ const useMedia = () => {
       })
     );
 
-    // get file favourites
-    json = await Promise.all(
-      json.map(async (item) => {
-        const ratings = await getRatingsByFileId(item.file_id);
-        const rating = ratings.length ? ratings.reduce((acc, obj) => acc + obj.rating, 0) / ratings.length : null;
-        return { ...item, rating: rating };
-      })
-    );
-
-
     // get user info
     json = await Promise.all(
       json.map(async (item) => {
