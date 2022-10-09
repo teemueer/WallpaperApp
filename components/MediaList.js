@@ -1,4 +1,4 @@
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 import MediaItem from "./MediaItem";
 
 const MediaList = ({ navigation, media }) => {
@@ -10,7 +10,8 @@ const MediaList = ({ navigation, media }) => {
       renderItem={({ item }) => (
         <MediaItem navigation={navigation} item={item} />
       )}
-    ></FlatList>
+    >
+    </FlatList>
   );
 };
 

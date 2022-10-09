@@ -10,7 +10,7 @@ export default StyleSheet.create({
       user: {
         backgroundColor: "#984063",
         flexDirection: "column",
-        flex: 1,
+        flex: 50,
         borderTopLeftRadius: 45,
         borderTopRightRadius: 45,
         alignItems: "center",
@@ -18,18 +18,15 @@ export default StyleSheet.create({
       },
       media: {
         backgroundColor: "#fff",
-        flex: 3.5,
+        flex: 2.5,
         flexDirection: "column",
         paddingTop: 10,
         padding: 15,
-        borderTopLeftRadius: 45,
-        borderTopRightRadius: 45,
         width: "100%",
       },
       avatar: {
         height: 100,
         width: 100,
-        marginLeft: 20,
         borderRadius: 150 / 2,
         overflow: "hidden",
         borderWidth: 4,
@@ -37,13 +34,13 @@ export default StyleSheet.create({
       },
       avatarPosition: {
         position: "relative",
-        left: -50,
+        left: -30,
         top: 10,
       },
       userInfo: {
-        position: "relative",
-        right: 0,
-        top: 20,
+        flexDirection:'row',
+        alignItems:'center'
+       
       },
       userContainer: {
         flex: 1,

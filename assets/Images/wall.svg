@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 149.52 64.14">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill: #9e1f63;
+      }
+
+      .cls-3 {
+        fill: #ef4869;
+      }
+
+      .cls-4 {
+        fill: #994063;
+      }
+    </style>
+  </defs>
+  <g id="Layer_2" data-name="Layer 2">
+    <path class="cls-4" d="M.6,9.9h7.92l9.42,32.7h-1.8L25.44,12.48h4.8l9.66,29.64h-1.62L48.18,9.9h7.98l-13.38,38.94h-7.44l-7.62-22.98h.66l-7.62,22.98h-7.44L.6,9.9Z"/>
+  </g>
+  <g id="Layer_1" data-name="Layer 1">
+    <path class="cls-3" d="M47.2,48.84L60.46,9.9h8.88l12.72,38.94h-7.44l-2.7-8.4h-14.46l-2.76,8.4h-7.5Zm12.06-13.74h10.98l-5.46-16.74-5.52,16.74Z"/>
+  </g>
+  <g id="Layer_3" data-name="Layer 3">
+    <path class="cls-1" d="M91.78,9.9V42.66h16.02v6.18h-23.1V9.9h7.08Z"/>
+  </g>
+  <g id="Layer_4" data-name="Layer 4">
+    <path class="cls-1" d="M117.66,9.9V42.66h16.02v6.18h-23.1V9.9h7.08Z"/>
+  </g>
+  <g id="Layer_5" data-name="Layer 5">
+    <path class="cls-2" d="M138.06,45.24c0-1.36,.46-2.5,1.38-3.42,.92-.92,2.1-1.38,3.54-1.38s2.64,.46,3.6,1.38c.96,.92,1.44,2.05,1.44,3.39s-.48,2.49-1.44,3.38-2.16,1.33-3.6,1.33-2.62-.45-3.54-1.35-1.38-2.01-1.38-3.33Z"/>
+  </g>
+</svg>
