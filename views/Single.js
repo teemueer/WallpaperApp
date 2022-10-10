@@ -14,6 +14,9 @@ import * as MediaLibrary from "expo-media-library";
 import { useFonts } from "expo-font";
 import { Nunito_700Bold_Italic } from "@expo-google-fonts/nunito";
 import { Karla_400Regular } from "@expo-google-fonts/karla";
+import useComment from '../hooks/CommentApi';
+import {useForm, Controller} from 'react-hook-form';
+import {Input} from '@rneui/base';
 //import {styles} from '../styles/Single.style'
 
 const Single = ({ route }) => {
