@@ -15,6 +15,7 @@ import { MainContext } from "../contexts/MainContext";
 import PropTypes from "prop-types";
 import { Image, TouchableOpacity } from "react-native";
 import Wall from "../assets/Images/wall.svg";
+import ModifyMedia from "../views/ModifyMedia";
 
 const Tab = createBottomTabNavigator();
 const iconColor = "white";
@@ -248,6 +249,13 @@ const StackScreen = () => {
             fontSize: 24,
             fontWeight: "500",
           },
+          headerShadowVisible: false,
+        }}
+      />
+      <Stack.Screen
+        name="ModifyMedia"
+        component={ModifyMedia}
+        options={{
           headerShadowVisible: false,
         }}
       />
