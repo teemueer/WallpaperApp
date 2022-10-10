@@ -11,12 +11,15 @@ import ArrowDown from "../assets/Images/arrowDown.svg";
 import { Controller, useForm } from "react-hook-form";
 import { Button, Input } from "@rneui/base";
 import useFavourite from "../hooks/FavouriteApi";
+import useUser from "../hooks/UserApi";
 import Heart from "../assets/Images/roundedHeart.svg";
 import RedHeart from "../assets/Images/roundedHeartRed.svg";
+import {baseUrl} from "../utils/config";
 
 //!TODO: CLean styles, TextInput to add comment, comment Logic
 
 const Single = ({ route }) => {
+  const {getUserAvatarById} = useUser();
   const { getFavourites, postFavourite, deleteFavouriteByFileId } = useFavourite();
   const file = route.params.file;
   const [modalVisible, setModalVisible] = useState(false);
@@ -24,11 +27,22 @@ const Single = ({ route }) => {
   const [comments, setComments] = useState([]);
   const { getCommentsByFileId, postComment } = useComment();
   const [likeState, setLikeState] = useState(false);
+  const [avatar, setAvatar] = useState('https://via.placeholder.com/150')
 
   useEffect(() => {
+    fetchAvatar();
     fetchComments();
     fetchFavourites();
   }, []);
+
+  const fetchAvatar = async() =>{
+    const res = await getUserAvatarById(file.user_id)
+    console.log(res[0].filename)
+      if(res > 0){
+        setAvatar(`${baseUrl}/uploads/${res[0].filename}`)
+      }
+  }
+
 
   const fetchComments = () => {
     getCommentsByFileId(file.file_id).then((comment) => setComments(comment));

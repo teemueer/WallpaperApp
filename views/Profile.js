@@ -6,8 +6,6 @@ import { TouchableOpacity, View } from "react-native";
 import styles from "../styles/Profile.style";
 import ProfilePosts from "../components/ProfilePosts";
 import ProfileFavourites from "../components/ProfileFavourite";
-
-//SVG imports
 import LogOut from "../assets/Images/logout.svg";
 import Account from "../assets/Images/account.svg";
 import Heart from "../assets/Images/blackHeart.svg";
