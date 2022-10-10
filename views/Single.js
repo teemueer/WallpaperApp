@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { StyleSheet, Alert, SafeAreaView } from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { StyleSheet, Alert, SafeAreaView, Settings } from "react-native";
 import { View, Image, Text, TouchableOpacity, Modal } from "react-native";
 import useComment from "../hooks/CommentApi";
 import * as FileSystem from "expo-file-system";
@@ -13,21 +13,26 @@ import { Button, Input } from "@rneui/base";
 import useFavourite from "../hooks/FavouriteApi";
 import useUser from "../hooks/UserApi";
 import Heart from "../assets/Images/roundedHeart.svg";
+import Setting from "../assets/Images/Setting.svg";
 import RedHeart from "../assets/Images/roundedHeartRed.svg";
-import {baseUrl} from "../utils/config";
+import { baseUrl } from "../utils/config";
+import { MainContext } from "../contexts/MainContext";
 
 //!TODO: CLean styles, TextInput to add comment, comment Logic
 
-const Single = ({ route }) => {
-  const {getUserAvatarById} = useUser();
-  const { getFavourites, postFavourite, deleteFavouriteByFileId } = useFavourite();
+const Single = ({ route, navigation }) => {
+  const { getUserAvatarById } = useUser();
+  const { getFavourites, postFavourite, deleteFavouriteByFileId } =
+    useFavourite();
   const file = route.params.file;
   const [modalVisible, setModalVisible] = useState(false);
   const [inputVisible, setInputVisible] = useState(false);
   const [comments, setComments] = useState([]);
   const { getCommentsByFileId, postComment } = useComment();
   const [likeState, setLikeState] = useState(false);
-  const [avatar, setAvatar] = useState('https://via.placeholder.com/150')
+  const [avatar, setAvatar] = useState("https://via.placeholder.com/150");
+
+  const { user } = useContext(MainContext);
 
   useEffect(() => {
     fetchAvatar();
@@ -35,50 +40,44 @@ const Single = ({ route }) => {
     fetchFavourites();
   }, []);
 
-  const fetchAvatar = async() =>{
-    const res = await getUserAvatarById(file.user_id)
-    console.log(res[0].filename)
-      if(res > 0){
-        setAvatar(`${baseUrl}/uploads/${res[0].filename}`)
-      }
-  }
-
+  const fetchAvatar = async () => {
+    const res = await getUserAvatarById(file.user_id);
+    console.log(res[0].filename);
+    if (res > 0) {
+      setAvatar(`${baseUrl}/uploads/${res[0].filename}`);
+    }
+  };
 
   const fetchComments = () => {
     getCommentsByFileId(file.file_id).then((comment) => setComments(comment));
   };
 
-  const fetchFavourites = async () =>{
-   const vals =  await getFavourites();
-    for(let i = 0; i < vals.length; i++){
-      if(file.file_id === vals[i].file_id){
-        setLikeState(true)
+  const fetchFavourites = async () => {
+    const vals = await getFavourites();
+    for (let i = 0; i < vals.length; i++) {
+      if (file.file_id === vals[i].file_id) {
+        setLikeState(true);
       }
     }
-  }
+  };
 
-  const favouritePost = async() =>{
-      setLikeState(!likeState)
-      try {
-        if(!likeState){
-          const data = {"file_id":file.file_id}
-          const res = await postFavourite(data)
-          Alert.alert(res.message)
-          fetchFavourites();
-          setLikeState(!likeState)
-        }else{
-          const res = await deleteFavouriteByFileId(file.file_id);
-          console.log(res)
-          fetchFavourites
-          setLikeState(!likeState)
-        }
-        
-      } catch (error) {
-        
+  const favouritePost = async () => {
+    setLikeState(!likeState);
+    try {
+      if (!likeState) {
+        const data = { file_id: file.file_id };
+        const res = await postFavourite(data);
+        Alert.alert(res.message);
+        fetchFavourites();
+        setLikeState(!likeState);
+      } else {
+        const res = await deleteFavouriteByFileId(file.file_id);
+        console.log(res);
+        fetchFavourites;
+        setLikeState(!likeState);
       }
-    
-  }
-  
+    } catch (error) {}
+  };
 
   const {
     control,
@@ -126,6 +125,8 @@ const Single = ({ route }) => {
     }
   };
 
+  console.log(file.user.user_id === user.user_id);
+
   return (
     <SafeAreaView style={styles.container}>
       <Modal
@@ -135,10 +136,7 @@ const Single = ({ route }) => {
       >
         <View>
           <Image style={styles.image} source={{ uri: file.uri }}></Image>
-          <TouchableOpacity
-            style={{ position: "absolute", bottom: "10%", left: "42%" }}
-            onPress={() => setModalVisible(!modalVisible)}
-          >
+          <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
             <ArrowDown width={50} height={50}></ArrowDown>
           </TouchableOpacity>
         </View>
@@ -151,8 +149,17 @@ const Single = ({ route }) => {
         >
           <Image style={[styles.image]} source={{ uri: file.uri }} />
         </TouchableOpacity>
-        <View style={{position:'absolute', top: '5%',right:'5%'}}>
-        {likeState ? (
+        {file.user.user_id === user.user_id ? (
+          <View style={{ position: "absolute", left: "5%", top: "5%" }}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("ModifyMedia", { file })}
+            >
+              <Setting width={40} height={40}></Setting>
+            </TouchableOpacity>
+          </View>
+        ) : null}
+        <View style={{ position: "absolute", top: "5%", right: "5%" }}>
+          {likeState ? (
             <TouchableOpacity onPress={() => favouritePost()}>
               <RedHeart width={40} height={40}></RedHeart>
             </TouchableOpacity>
@@ -270,7 +277,7 @@ const Single = ({ route }) => {
           alignItems: "center",
           backgroundColor: "white",
           borderBottomRightRadius: 45,
-          borderBottomLeftRadius:45,
+          borderBottomLeftRadius: 45,
           shadowColor: "#000",
           shadowOffset: {
             width: 0,
