@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Linking, StyleSheet, Alert } from "react-native";
 import {
   View,
@@ -16,10 +16,13 @@ import { Nunito_700Bold_Italic } from "@expo-google-fonts/nunito";
 import { Karla_400Regular } from "@expo-google-fonts/karla";
 
 import Settings from "../assets/Images/Setting.svg";
+import { MainContext } from "../contexts/MainContext";
 
 const Single = ({ route, navigation }) => {
   const file = route.params.file;
   const [modalVisible, setModalVisible] = useState(false);
+
+  const { user } = useContext(MainContext);
 
   const download = async () => {
     try {
@@ -48,12 +51,14 @@ const Single = ({ route, navigation }) => {
       </Modal>
 
       <View style={styles.single}>
-        <TouchableOpacity
-          style={styles.settings}
-          onPress={() => navigation.navigate("ModifyMedia", { file })}
-        >
-          <Settings width={30} height={30}></Settings>
-        </TouchableOpacity>
+        {file.user.user_id === user.user_id ? (
+          <TouchableOpacity
+            style={styles.settings}
+            onPress={() => navigation.navigate("ModifyMedia", { file })}
+          >
+            <Settings width={30} height={30}></Settings>
+          </TouchableOpacity>
+        ) : null}
         <TouchableOpacity
           style={styles.image_container}
           onPress={() => setModalVisible(!modalVisible)}
