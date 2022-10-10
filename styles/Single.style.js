@@ -4,13 +4,14 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: "rgba(65, 67, 106, 1)",
+    //backgroundColor: "rgba(65, 67, 106, 1)",
+    backgroundColor: "white",
   },
   single: {
     margin: 0,
     borderRadius: 0,
     overflow: "hidden",
-    flex: 2,
+    flex: 2.4,
     flexDirection: "column",
     alignItems: "center",
     backgroundColor: "rgba(65, 67, 106, 1)",
@@ -41,8 +42,8 @@ export default StyleSheet.create({
   },
   description: {
     color: "#fff",
-    fontWeight:'600',
-    fontSize:16,
+    fontWeight: "600",
+    alignSelf: "center",
   },
   download: {
     position: "absolute",
@@ -53,17 +54,17 @@ export default StyleSheet.create({
   //These elements are on top of the picture.
   likeButton: {
     position: "absolute",
-    top: "5%",
+    top: "4%",
     right: "5%",
   },
   actionCluster: {
     position: "absolute",
     bottom: "5%",
-    right: "5%",
+    right: "4.5%",
   },
   postAvatarContainer: {
     position: "absolute",
-    top: "3%",
+    top: "2%",
     left: "2%",
     backgroundColor: "rgba(65, 67, 106, .7)",
     width: 160,
@@ -81,6 +82,18 @@ export default StyleSheet.create({
     borderWidth: 3,
     borderColor: "white",
     marginRight: 10,
+  },
+  floatingDescription: {
+    position: "absolute",
+    bottom: "5%",
+    left: "2%",
+    backgroundColor: "rgba(65, 67, 106, .7)",
+    minHeight: 70,
+    minWidth: 240,
+    maxWidth: 300,
+    justifyContent: "center",
+    padding: 15,
+    borderRadius: 35,
   },
 
   //Comment Modal styling
@@ -113,10 +126,9 @@ export default StyleSheet.create({
 
   //Comment section styling
   commentSection: {
-    flex: 1,
+    flex: 2,
     alignItems: "center",
-    backgroundColor: "rgba(204, 211, 255, 1)",
-    borderBottomRightRadius: 45,
+    //backgroundColor: "rgba(204, 211, 255, 1)",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

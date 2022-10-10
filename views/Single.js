@@ -197,18 +197,7 @@ const Single = ({ route }) => {
         </View>
         {description ? (
           <View
-            style={{
-              position: "absolute",
-              bottom: "5%",
-              left: "2%",
-              backgroundColor: "rgba(65, 67, 106, .7)",
-              minHeight: 70,
-              minWidth: 240,
-              maxWidth: 300,
-              justifyContent: "center",
-              padding: 15,
-              borderRadius: 35,
-            }}
+            style={styles.floatingDescription}
           >
             <Text style={[styles.description, { alignSelf: "center" }]}>
               {file.description}
@@ -259,8 +248,10 @@ const Single = ({ route }) => {
         </Modal>
       </View>
       <View style={styles.commentSection}>
-        <Text style={{ alignSelf: "center", marginTop: "2%" }}>Comments:</Text>
-        <View style={{ width: "90%", height: "100%" }}>
+        <Text style={{ alignSelf: "center", marginTop: "2%", color: "black" }}>
+          Comments:
+        </Text>
+        <View style={{ width: "97%", height: "100%", alignSelf: "center" }}>
           <CommentList comments={comments}></CommentList>
         </View>
       </View>
