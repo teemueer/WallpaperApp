@@ -14,21 +14,31 @@ const Comment = ({ comment }) => {
     <View
       style={{
         backgroundColor: "grey",
-        marginBottom:5,
-        marginTop:5,
-        borderRadius:15,
+        marginBottom: 5,
+        marginTop: 5,
+        borderRadius: 15,
       }}
     >
-      <View style={{backgroundColor:'blue', justifyContent:'space-between', flexDirection:'row', height:35, alignItems:'center',
-        borderTopRightRadius:'15', borderTopLeftRadius:15,
-    }}>
-        <Text style={{color:'white',fontWeight:'700', marginLeft:15}}>{users.username}</Text>
+      <View
+        style={{
+          backgroundColor: "blue",
+          justifyContent: "space-between",
+          flexDirection: "row",
+          height: 35,
+          alignItems: "center",
+          borderTopRightRadius: 15,
+          borderTopLeftRadius: 15,
+        }}
+      >
+        <Text style={{ color: "white", fontWeight: "700", marginLeft: 15 }}>
+          {users.username}
+        </Text>
         <Text>Hello</Text>
       </View>
-      <View style={{minHeight:40}}>
+      <View style={{ minHeight: 40 }}>
         <Text>{comment.comment}</Text>
       </View>
-      </View>
+    </View>
   );
 };
 export default Comment;
