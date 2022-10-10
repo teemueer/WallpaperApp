@@ -105,6 +105,7 @@ const Upload = ({ navigation }) => {
           <Input
             onBlur={onBlur}
             onChangeText={onChange}
+            maxLength={200}
             value={value}
             placeholder="Description"
           />

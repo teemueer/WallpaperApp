@@ -5,29 +5,38 @@ import useComment from "../hooks/CommentApi";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
 import CommentList from "../components/CommentList";
-import Download from "../assets/Images/download.svg";
-import Comment from "../assets/Images/comment.svg";
+import Download from "../assets/Images/downloadSquare.svg";
+import Comment from "../assets/Images/commentSquare.svg";
 import ArrowDown from "../assets/Images/arrowDown.svg";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, set, useForm } from "react-hook-form";
 import { Button, Input } from "@rneui/base";
 import useFavourite from "../hooks/FavouriteApi";
 import useUser from "../hooks/UserApi";
 import Heart from "../assets/Images/roundedHeart.svg";
 import RedHeart from "../assets/Images/roundedHeartRed.svg";
-import {baseUrl} from "../utils/config";
+import { baseUrl } from "../utils/config";
+import styles from "../styles/Single.style";
 
 //!TODO: CLean styles, TextInput to add comment, comment Logic
 
 const Single = ({ route }) => {
-  const {getUserAvatarById} = useUser();
-  const { getFavourites, postFavourite, deleteFavouriteByFileId } = useFavourite();
+  const { getUserAvatarById } = useUser();
+  const { getFavourites, postFavourite, deleteFavouriteByFileId } =
+    useFavourite();
   const file = route.params.file;
   const [modalVisible, setModalVisible] = useState(false);
   const [inputVisible, setInputVisible] = useState(false);
   const [comments, setComments] = useState([]);
   const { getCommentsByFileId, postComment } = useComment();
   const [likeState, setLikeState] = useState(false);
-  const [avatar, setAvatar] = useState('https://via.placeholder.com/150')
+  let description = false;
+  const [postAvatar, setPostAvatar] = useState(
+    "https://via.placeholder.com/150"
+  );
+
+  if (file.description != "") {
+    description = true;
+  }
 
   useEffect(() => {
     fetchAvatar();
@@ -35,50 +44,50 @@ const Single = ({ route }) => {
     fetchFavourites();
   }, []);
 
-  const fetchAvatar = async() =>{
-    const res = await getUserAvatarById(file.user_id)
-    console.log(res[0].filename)
-      if(res > 0){
-        setAvatar(`${baseUrl}/uploads/${res[0].filename}`)
-      }
-  }
+  //Fetch posters avatar. If there is no avatar use placeholder image!
+  const fetchAvatar = async () => {
+    const res = await getUserAvatarById(file.user_id);
+    if (res.length > 0) {
+      setPostAvatar(`${baseUrl}/uploads/${res[0].filename}`);
+    } else {
+      setPostAvatar("https://via.placeholder.com/150");
+    }
+  };
 
-
+  //Fetch commets of a post
   const fetchComments = () => {
     getCommentsByFileId(file.file_id).then((comment) => setComments(comment));
   };
 
-  const fetchFavourites = async () =>{
-   const vals =  await getFavourites();
-    for(let i = 0; i < vals.length; i++){
-      if(file.file_id === vals[i].file_id){
-        setLikeState(true)
+  //Fetches list of users favourites, ad IF the current post is in that set of
+  //Favourites change Heart to red.
+  const fetchFavourites = async () => {
+    const vals = await getFavourites();
+    for (let i = 0; i < vals.length; i++) {
+      if (file.file_id === vals[i].file_id) {
+        setLikeState(true);
       }
     }
-  }
+  };
 
-  const favouritePost = async() =>{
-      setLikeState(!likeState)
-      try {
-        if(!likeState){
-          const data = {"file_id":file.file_id}
-          const res = await postFavourite(data)
-          Alert.alert(res.message)
-          fetchFavourites();
-          setLikeState(!likeState)
-        }else{
-          const res = await deleteFavouriteByFileId(file.file_id);
-          console.log(res)
-          fetchFavourites
-          setLikeState(!likeState)
-        }
-        
-      } catch (error) {
-        
+  //Either adds post to favourites OR un-favourites current post.
+  const favouritePost = async () => {
+    setLikeState(!likeState);
+    try {
+      if (!likeState) {
+        const data = { file_id: file.file_id };
+        const res = await postFavourite(data);
+        Alert.alert(res.message);
+        fetchFavourites();
+        setLikeState(!likeState);
+      } else {
+        const res = await deleteFavouriteByFileId(file.file_id);
+        Alert.alert(res.message);
+        fetchFavourites();
+        setLikeState(!likeState);
       }
-    
-  }
-  
+    } catch (error) {}
+  };
 
   const {
     control,
@@ -91,6 +100,7 @@ const Single = ({ route }) => {
     },
   });
 
+  //Create a comment
   const comment = async (commentInput) => {
     const data = { comment: commentInput.comment, file_id: file.file_id };
     try {
@@ -151,8 +161,8 @@ const Single = ({ route }) => {
         >
           <Image style={[styles.image]} source={{ uri: file.uri }} />
         </TouchableOpacity>
-        <View style={{position:'absolute', top: '5%',right:'5%'}}>
-        {likeState ? (
+        <View style={styles.likeButton}>
+          {likeState ? (
             <TouchableOpacity onPress={() => favouritePost()}>
               <RedHeart width={40} height={40}></RedHeart>
             </TouchableOpacity>
@@ -162,6 +172,51 @@ const Single = ({ route }) => {
             </TouchableOpacity>
           )}
         </View>
+        <View style={styles.actionCluster}>
+          <TouchableOpacity
+            onPress={() => download()}
+            style={{ marginBottom: 5 }}
+          >
+            <Download width={40} height={40} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setInputVisible(!inputVisible)}>
+            <Comment width={40} height={40} />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.postAvatarContainer}>
+          <Image source={{ uri: postAvatar }} style={styles.postAvatar} />
+          <View style={{ flexDirection: "column" }}>
+            <Text style={{ color: "white", fontWeight: "700" }}>
+              Posted by:
+            </Text>
+            <Text style={{ color: "white", fontSize: 24, fontWeight: "700" }}>
+              {file.user.username}
+            </Text>
+          </View>
+        </View>
+        {description ? (
+          <View
+            style={{
+              position: "absolute",
+              bottom: "5%",
+              left: "2%",
+              backgroundColor: "rgba(65, 67, 106, .7)",
+              minHeight: 70,
+              minWidth: 240,
+              maxWidth: 300,
+              justifyContent: "center",
+              padding: 15,
+              borderRadius: 35,
+            }}
+          >
+            <Text style={[styles.description, { alignSelf: "center" }]}>
+              {file.description}
+            </Text>
+          </View>
+        ) : (
+          <View></View>
+        )}
 
         <Modal
           animationType="slide"
@@ -169,36 +224,8 @@ const Single = ({ route }) => {
           visible={inputVisible}
           onRequestClose={() => setInputVisible(!inputVisible)}
         >
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <View
-              style={{
-                margin: 20,
-                paddingTop: 35,
-                paddingLeft: 5,
-                paddingRight: 5,
-                backgroundColor: "white",
-                borderRadius: 20,
-                alignItems: "center",
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 3,
-                },
-                shadowOpacity: 0.27,
-                shadowRadius: 4.65,
-
-                elevation: 6,
-                width: "80%",
-                minHeight: "20%",
-                maxheight: "25%",
-              }}
-            >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalStyle}>
               <Controller
                 control={control}
                 rules={{ required: true }}
@@ -206,7 +233,7 @@ const Single = ({ route }) => {
                   <Input
                     style={{}}
                     multiline={true}
-                    maxLength={120}
+                    maxLength={80}
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value}
@@ -230,114 +257,15 @@ const Single = ({ route }) => {
             </View>
           </View>
         </Modal>
-
-        <View
-          style={{
-            height: 100,
-            position: "absolute",
-            width: "100%",
-            backgroundColor: "rgba(65, 67, 106, 0.7)",
-            top: "80%",
-          }}
-        >
-          <View style={{ flexDirection: "row" }}>
-            <View style={{ flex: 1, paddingLeft: 10, paddingTop: 2 }}>
-              <Text style={styles.title}>{file.title}</Text>
-              <Text style={styles.author}>Posted by: {file.user.username}</Text>
-            </View>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                paddingRight: 20,
-              }}
-            >
-              <TouchableOpacity onPress={() => download()}>
-                <Download width={25} height={25} />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => setInputVisible(!inputVisible)}>
-                <Comment width={25} height={25} style={{ marginLeft: 20 }} />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
       </View>
-      <View
-        style={{
-          flex: 1,
-          alignItems: "center",
-          backgroundColor: "white",
-          borderBottomRightRadius: 45,
-          borderBottomLeftRadius:45,
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-
-          elevation: 5,
-        }}
-      >
+      <View style={styles.commentSection}>
         <Text style={{ alignSelf: "center", marginTop: "2%" }}>Comments:</Text>
-        <View style={{ width: "90%", height: "90%" }}>
+        <View style={{ width: "90%", height: "100%" }}>
           <CommentList comments={comments}></CommentList>
         </View>
       </View>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    backgroundColor: "rgba(65, 67, 106, 1)",
-  },
-  single: {
-    margin: 0,
-    borderRadius: 0,
-    overflow: "hidden",
-    flex: 1,
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  image_container: {
-    flex: 3,
-    width: "100%",
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-    borderTopRightRadius: 45,
-    borderTopLeftRadius: 45,
-  },
-  info: {
-    flex: 1,
-    width: "100%",
-    backgroundColor: "rgba(65, 67, 106,2)",
-    paddingHorizontal: 5,
-  },
-  title: {
-    fontWeight: "bold",
-    color: "#fff",
-    fontSize: 24,
-  },
-  author: {
-    fontWeight: "bold",
-    color: "#fff",
-  },
-  description: {
-    color: "#fff",
-  },
-  download: {
-    position: "absolute",
-    alignSelf: "center",
-    bottom: 20,
-  },
-});
 
 export default Single;

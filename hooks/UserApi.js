@@ -42,7 +42,7 @@ const useUser = () => {
 
   const getUserAvatarById = async (userId) => {
     try {
-      const avatar = await myFetch(`${baseUrl}/tags/avatar_${2130}`);
+      const avatar = await myFetch(`${baseUrl}/tags/avatar_${userId}`);
       return avatar
     } catch (error) {
       throw new Error(error.message);
