@@ -3,8 +3,10 @@ import myFetch from "../utils/myFetch";
 
 const useFavourite = () => {
   const postFavourite = async (data) => {
+    console.log(data)
     try {
       const json = await myFetch(`${baseUrl}/favourites`, "POST", data);
+      console.log(json)
       return json;
     } catch (error) {
       throw new Error(error.message);

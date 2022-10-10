@@ -12,6 +12,7 @@ const useComment = () => {
   };
 
   const postComment = async (data) => {
+    console.log(data)
     try {
       const json = await myFetch(`${baseUrl}/comments`, "POST", data);
       return json;

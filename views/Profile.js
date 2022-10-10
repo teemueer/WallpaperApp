@@ -12,6 +12,7 @@ import Heart from "../assets/Images/blackHeart.svg";
 import ImageGallery from "../assets/Images/imageGalleryBlack.svg";
 import RedHeart from "../assets/Images/redHeart.svg";
 import Settings from '../assets/Images/Setting.svg'
+import ImageGalleryPurple from '../assets/Images/galleryPurple.svg'
 
 const Profile = ({ navigation }) => {
   const { setLoggedIn, user, avatar } = useContext(MainContext);
@@ -77,7 +78,7 @@ const Profile = ({ navigation }) => {
 
           {toggle ? (
             <TouchableOpacity onPress={() => toggleState()}>
-              <ImageGallery width={30} height={30}></ImageGallery>
+              <ImageGalleryPurple width={30} height={30}></ImageGalleryPurple>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={() => toggleState()}>

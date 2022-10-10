@@ -243,6 +243,7 @@ const StackScreen = () => {
           headerStyle: {
             backgroundColor: "rgba(65, 67, 106, 1)",
             borderBottomWidth: 0,
+            textAlign:'center',
           },
           headerTintColor: "#fff",
           headerTitleStyle: {

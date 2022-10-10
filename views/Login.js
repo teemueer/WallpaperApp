@@ -38,6 +38,7 @@ const Login = ({ navigation }) => {
   const login = async (userCredentials) => {
     try {
       const user = await postLogin(userCredentials);
+      console.log(user)
       setUser(user);
       setLoggedIn(true);
     } catch (error) {

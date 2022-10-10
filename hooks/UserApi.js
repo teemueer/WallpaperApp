@@ -1,4 +1,6 @@
-import { useContext, useEffect } from "react";
+
+import {addAssetsToAlbumAsync} from "expo-media-library";
+import { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { baseUrl } from "../utils/config";
 import myFetch from "../utils/myFetch";
@@ -33,6 +35,15 @@ const useUser = () => {
     try {
       const avatar = await myFetch(`${baseUrl}/tags/avatar_${user.user_id}`);
       setAvatar(`${baseUrl}/uploads/${avatar[0].filename}`);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+
+  const getUserAvatarById = async (userId) => {
+    try {
+      const avatar = await myFetch(`${baseUrl}/tags/avatar_${2130}`);
+      return avatar
     } catch (error) {
       throw new Error(error.message);
     }
@@ -104,6 +115,7 @@ const useUser = () => {
     modifyUser,
     getUserById,
     getUsers,
+    getUserAvatarById
   };
 };
 
