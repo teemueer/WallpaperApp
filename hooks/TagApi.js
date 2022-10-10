@@ -41,16 +41,30 @@ const useTag = () => {
   const searchTags = async (search) => {
     try {
       let json = await getTags();
-      json = await json
-        .filter((tag) => tag.tag.includes(search))
-        .map((tag) => tag.tag);
+      json = await json.filter((tag) => tag.tag.includes(search));
       return [...new Set(json)];
     } catch (error) {
       throw new Error(error.message);
     }
   };
 
-  return { getMediaByTag, postTag, getTagsByFileId, getTags, searchTags };
+  const deleteTag = async (id) => {
+    try {
+      const json = await myFetch(`${baseUrl}/tags/${id}`, "DELETE");
+      return json;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+
+  return {
+    getMediaByTag,
+    postTag,
+    getTagsByFileId,
+    getTags,
+    searchTags,
+    deleteTag,
+  };
 };
 
 export default useTag;

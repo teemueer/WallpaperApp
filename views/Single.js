@@ -14,9 +14,10 @@ import * as MediaLibrary from "expo-media-library";
 import { useFonts } from "expo-font";
 import { Nunito_700Bold_Italic } from "@expo-google-fonts/nunito";
 import { Karla_400Regular } from "@expo-google-fonts/karla";
-//import {styles} from '../styles/Single.style'
 
-const Single = ({ route }) => {
+import Settings from "../assets/Images/Setting.svg";
+
+const Single = ({ route, navigation }) => {
   const file = route.params.file;
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -47,6 +48,12 @@ const Single = ({ route }) => {
       </Modal>
 
       <View style={styles.single}>
+        <TouchableOpacity
+          style={styles.settings}
+          onPress={() => navigation.navigate("ModifyMedia", { file })}
+        >
+          <Settings width={30} height={30}></Settings>
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.image_container}
           onPress={() => setModalVisible(!modalVisible)}
@@ -107,6 +114,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     alignSelf: "center",
     bottom: 20,
+  },
+  settings: {
+    position: "absolute",
+    top: 20,
+    right: 20,
+    zIndex: 1,
   },
 });
 
