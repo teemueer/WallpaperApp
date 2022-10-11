@@ -12,10 +12,12 @@ const Comment = ({ comment, color }) => {
 
   const convertDate = () => {
     var date = new Date(comment.time_added);
+    /*
     var time = date.getHours() + ":" + date.getMinutes();
     var day =
       date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-    return time + " " + day;
+    */
+    return date.toLocaleString();
   };
   const date = convertDate();
 
