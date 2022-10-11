@@ -35,7 +35,7 @@ const ModifyMedia = ({ navigation, route }) => {
   };
 
   const selectTag = (tagSelected) => {
-    console.log(tagSelected);
+    console.log("select", tagSelected);
     setSelectedTags(selectedTags.concat(tagSelected));
     setFoundTags(foundTags.filter((tag) => tag !== tagSelected));
     setFoundTags([]);
@@ -96,7 +96,7 @@ const ModifyMedia = ({ navigation, route }) => {
     description === file.description &&
     selectedTags.length === 0;
 
-  console.log(description);
+  console.log(foundTags);
 
   return (
     <ScrollView style={styles.background}>
@@ -150,9 +150,16 @@ const ModifyMedia = ({ navigation, route }) => {
         </View>
 
         <View>
-          {selectedTags.map((tag, idx) => (
-            <Button key={idx} tag={tag} color="green" onPress={removeTag} />
-          ))}
+          {selectedTags.map((tag, idx) => {
+            return (
+              <Button
+                key={idx}
+                title={tag}
+                color="green"
+                onPress={() => removeTag(tag)}
+              />
+            );
+          })}
         </View>
 
         <View>
@@ -175,7 +182,7 @@ const ModifyMedia = ({ navigation, route }) => {
               <Button
                 key={idx}
                 title={tag}
-                onPress={selectTag}
+                onPress={() => selectTag(tag)}
                 color="#41436A"
               />
             ))}
@@ -183,7 +190,7 @@ const ModifyMedia = ({ navigation, route }) => {
               <Button
                 color="#984063"
                 title={`Add new tag '${searchInput}'`}
-                onPress={addNewTag}
+                onPress={() => addNewTag()}
               />
             ) : null}
           </View>
