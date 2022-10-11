@@ -39,7 +39,7 @@ const Login = ({ navigation }) => {
     try {
       const user = await postLogin(userCredentials);
       console.log(user)
-      setUser(user);
+      setUser(user.user);
       setLoggedIn(true);
     } catch (error) {
       console.error("login():", error.message);
