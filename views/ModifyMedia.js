@@ -12,7 +12,8 @@ const ModifyMedia = ({ navigation, route }) => {
 
   const { update, setUpdate } = useContext(MainContext);
 
-  const { allTags, updateMediaById } = useMedia();
+  const { allTags, updateMediaById, getMediaById, getMediaDetailsAndSort } =
+    useMedia();
   const { postTag } = useTag();
 
   const [foundTags, setFoundTags] = useState([]);
@@ -66,7 +67,9 @@ const ModifyMedia = ({ navigation, route }) => {
       }
 
       setUpdate(!update);
-      navigation.navigate("Single", { file });
+      let newFile = await getMediaById(file.file_id);
+      newFile = (await getMediaDetailsAndSort([newFile]))[0];
+      newFile = navigation.navigate("Single", { file: newFile });
     } catch (error) {
       console.error(error);
     }
