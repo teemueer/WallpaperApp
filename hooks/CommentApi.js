@@ -12,7 +12,7 @@ const useComment = () => {
   };
 
   const postComment = async (data) => {
-    console.log(data)
+    console.log(data);
     try {
       const json = await myFetch(`${baseUrl}/comments`, "POST", data);
       return json;
@@ -23,7 +23,8 @@ const useComment = () => {
 
   const getCommentsByFileId = async (file_id) => {
     try {
-      const json = await myFetch(`${baseUrl}/comments/file/${file_id}`, "GET");
+      let json = await myFetch(`${baseUrl}/comments/file/${file_id}`, "GET");
+      json = json.sort((a, b) => (a.time_added > b.time_added ? -1 : 1));
       return json;
     } catch (error) {
       throw new Error(error.message);
