@@ -10,7 +10,7 @@ import styles from "../styles/Login.style";
 import Wall from "../assets/Images/wall.svg";
 
 const Login = ({ navigation }) => {
-  const { setUser, setLoggedIn } = useContext(MainContext);
+  const { setUser, setLoggedIn, update, setUpdate } = useContext(MainContext);
   const { getUserByToken } = useUser();
   const { postLogin } = useLogin();
 
@@ -30,6 +30,7 @@ const Login = ({ navigation }) => {
       const user = await getUserByToken();
       setUser(user);
       setLoggedIn(true);
+      setUpdate(!update);
       navigation.navigate("Home");
     } catch (error) {
       //console.error("checkToken()", error.message);
@@ -42,6 +43,7 @@ const Login = ({ navigation }) => {
       console.log(user);
       setUser(user.user);
       setLoggedIn(true);
+      setUpdate(!update);
       navigation.navigate("Home");
     } catch (error) {
       console.error("login():", error.message);
