@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { StyleSheet, Alert, SafeAreaView } from "react-native";
 import { View, Image, Text, TouchableOpacity, Modal } from "react-native";
 import useComment from "../hooks/CommentApi";
@@ -16,6 +16,7 @@ import Heart from "../assets/Images/roundedHeart.svg";
 import RedHeart from "../assets/Images/roundedHeartRed.svg";
 import { baseUrl } from "../utils/config";
 import styles from "../styles/Single.style";
+import {MainContext} from "../contexts/MainContext";
 
 //!TODO: CLean styles, TextInput to add comment, comment Logic
 
@@ -33,6 +34,7 @@ const Single = ({ route }) => {
   const [postAvatar, setPostAvatar] = useState(
     "https://via.placeholder.com/150"
   );
+ 
 
   if (file.description != "") {
     description = true;

@@ -37,14 +37,14 @@ const Profile = ({ navigation }) => {
             </View>
             <View style={styles.userInfo}>
               <Account width={30} height={30}></Account>
-              <Text style={{ color: "white", marginLeft: 5, fontSize: 32 }}>
+              <Text style={{ color: "white", marginLeft: 5, fontSize: 32, fontWeight:'700' }}>
                 {user.username}
               </Text>
             </View>
           </View>
           <TouchableOpacity
             onPress={() => logout()}
-            style={{ position: "absolute", top: "30%", right: -50 }}
+            style={{ position: "absolute", top: "10%", right: -50 }}
           >
             <LogOut width={20} height={20}></LogOut>
           </TouchableOpacity>

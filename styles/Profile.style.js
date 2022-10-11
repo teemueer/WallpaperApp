@@ -25,9 +25,9 @@ export default StyleSheet.create({
         width: "100%",
       },
       avatar: {
-        height: 100,
-        width: 100,
-        borderRadius: 150 / 2,
+        height: 140,
+        width: 140,
+        borderRadius: 200 / 2,
         overflow: "hidden",
         borderWidth: 4,
         borderColor: "white",
@@ -39,11 +39,11 @@ export default StyleSheet.create({
       },
       userInfo: {
         flexDirection:'row',
-        alignItems:'center'
+        marginTop:'25%'
        
       },
       userContainer: {
-        flex: 1,
+        flex: 1.2,
         paddingTop: 10,
       },
       row: {
