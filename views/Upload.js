@@ -2,13 +2,20 @@ import { Button, Card, Input, Text } from "@rneui/base";
 import { Controller, useForm } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import { useContext, useState } from "react";
-import { Alert } from "react-native";
+import {Alert, Modal, View} from 'react-native';
 import { MainContext } from "../contexts/MainContext";
 import useMedia from "../hooks/MediaApi";
+import styles from "../styles/Upload.style";
+import {Image} from '@rneui/themed';
+import {LinearGradient} from 'expo-linear-gradient';
+
+
 
 const Upload = ({ navigation }) => {
   const [image, setImage] = useState(null);
   const { postMedia } = useMedia();
+  const [modalVisible, setModalVisible] = useState(false);
+
 
   const { update, setUpdate } = useContext(MainContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -72,10 +79,23 @@ const Upload = ({ navigation }) => {
   });
 
   return (
-    <Card>
-      <Card.Image
-        source={{ uri: image?.uri || "https://placekitten.com/300" }}
+    <View style={styles.background}>
+      <View style={styles.container}>
+      <View>
+      <Image
+        source={{uri: image?.uri || "https://placekitten.com/300" }}
+        style={ styles.imageStyle}
       />
+      </View>
+      <View
+      style={
+        {
+        width: "100%",
+        alignItems: "center",
+}}
+      >
+        <LinearGradient colors={["#41436A", "#984063"]} style={styles.inputBackground} />
+        <View style={styles.input}>
       <Controller
         control={control}
         rules={{
@@ -99,6 +119,8 @@ const Upload = ({ navigation }) => {
         )}
         name="title"
       />
+        </View>
+        <View style={styles.input}>
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
@@ -112,15 +134,57 @@ const Upload = ({ navigation }) => {
         )}
         name="description"
       />
-      <Button title="Select file" onPress={onSelect} />
-      <Button title="Reset" onPress={resetForm} />
+        </View>
+        <View style={styles.input}>
+          <Controller
+              control={control}
+              rules={{
+                required: true,
+                minLength: 3,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                  <Input
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                      placeholder="Insert tags"
+                      autoCapitalize="words"
+                  />
+              )}
+              name="tags"
+          />
+        </View>
+      </View>
+      <View style={styles.buttonContainer}>
+        <View>
+      <Button
+          title="Select file"
+          onPress={onSelect}
+          color="#984063"
+          style={styles.buttonStyle}
+      />
+        </View>
+      <View style={{marginLeft: 10}}>
+      <Button
+          title="Reset"
+          onPress={resetForm}
+          color="#FE9677"
+          style={styles.buttonStyle}
+      />
+      </View>
+        <View style={{marginLeft: 10}}>
       <Button
         title="Upload media"
         disabled={!image}
         loading={isLoading}
         onPress={handleSubmit(onUpload)}
+        color="#984063"
+        style={styles.buttonStyle}
       ></Button>
-    </Card>
+        </View>
+      </View>
+    </View>
+    </View>
   );
 };
 

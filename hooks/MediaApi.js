@@ -93,8 +93,9 @@ const useMedia = () => {
 
   const getMediaByUserId = async (user_id) => {
     try {
-      let json = await myFetch(`${baseUrl}/media/user/${user_id}`, "GET");
-      json = await getMediaDetailsAndSort(json);
+      //let json = await myFetch(`${baseUrl}/media/user/${user_id}`, "GET");
+      //json = await getMediaDetailsAndSort(json);
+      const json = allMedia.filter((media) => media.user.user_id === user_id);
       return json;
     } catch (error) {
       throw new Error(error.message);

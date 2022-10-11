@@ -1,7 +1,20 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
+  background: {
+    flex: 1,
+    backgroundColor: "#41436A",
+    position: "relative",
+  },
   info: {
-    marginBottom: 20,
+    height: "100%",
+    backgroundColor: "#ffffff",
+    flexDirection: "column",
+    borderTopLeftRadius: 45,
+    borderTopRightRadius: 45,
+    padding: 30,
+  },
+  header: {
+    fontWeight: "bold",
   },
 });

@@ -13,6 +13,7 @@ import { Button, Input } from "@rneui/base";
 import useFavourite from "../hooks/FavouriteApi";
 import useUser from "../hooks/UserApi";
 import Heart from "../assets/Images/roundedHeart.svg";
+import Setting from "../assets/Images/Setting.svg";
 import RedHeart from "../assets/Images/roundedHeartRed.svg";
 import { baseUrl } from "../utils/config";
 import styles from "../styles/Single.style";
@@ -30,6 +31,7 @@ const Single = ({ route }) => {
   const [comments, setComments] = useState([]);
   const { getCommentsByFileId, postComment } = useComment();
   const [likeState, setLikeState] = useState(false);
+
   let description = false;
   const [postAvatar, setPostAvatar] = useState(
     "https://via.placeholder.com/150"
@@ -40,11 +42,13 @@ const Single = ({ route }) => {
     description = true;
   }
 
+
   useEffect(() => {
     fetchAvatar();
     fetchComments();
     fetchFavourites();
   }, []);
+
 
   //Fetch posters avatar. If there is no avatar use placeholder image!
   const fetchAvatar = async () => {
@@ -61,8 +65,10 @@ const Single = ({ route }) => {
     getCommentsByFileId(file.file_id).then((comment) => setComments(comment));
   };
 
+
   //Fetches list of users favourites, ad IF the current post is in that set of
   //Favourites change Heart to red.
+
   const fetchFavourites = async () => {
     const vals = await getFavourites();
     for (let i = 0; i < vals.length; i++) {
@@ -71,6 +77,7 @@ const Single = ({ route }) => {
       }
     }
   };
+
 
   //Either adds post to favourites OR un-favourites current post.
   const favouritePost = async () => {
@@ -84,6 +91,7 @@ const Single = ({ route }) => {
         setLikeState(!likeState);
       } else {
         const res = await deleteFavouriteByFileId(file.file_id);
+        juho-comments-single
         Alert.alert(res.message);
         fetchFavourites();
         setLikeState(!likeState);
@@ -124,15 +132,22 @@ const Single = ({ route }) => {
 
   const download = async () => {
     try {
-      const fileUri = `${FileSystem.documentDirectory}${file.filename}`;
-      const downloadedFile = await FileSystem.downloadAsync(file.uri, fileUri);
-      await MediaLibrary.saveToLibraryAsync(downloadedFile.uri);
+      const { status } = await MediaLibrary.requestPermissionsAsync();
+      console.log(status);
+      if (status === "granted") {
+        const fileUri = `${FileSystem.documentDirectory}${file.filename}`;
+        const downloadedFile = await FileSystem.downloadAsync(
+          file.uri,
+          fileUri
+        );
+        await MediaLibrary.saveToLibraryAsync(downloadedFile.uri);
 
-      Alert.alert("File saved to your filesystem", "", [
-        {
-          text: "Ok",
-        },
-      ]);
+        Alert.alert("File saved to your filesystem", "", [
+          {
+            text: "Ok",
+          },
+        ]);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -147,10 +162,7 @@ const Single = ({ route }) => {
       >
         <View>
           <Image style={styles.image} source={{ uri: file.uri }}></Image>
-          <TouchableOpacity
-            style={{ position: "absolute", bottom: "10%", left: "42%" }}
-            onPress={() => setModalVisible(!modalVisible)}
-          >
+          <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
             <ArrowDown width={50} height={50}></ArrowDown>
           </TouchableOpacity>
         </View>
@@ -163,6 +175,17 @@ const Single = ({ route }) => {
         >
           <Image style={[styles.image]} source={{ uri: file.uri }} />
         </TouchableOpacity>
+
+        {file.user.user_id === user.user_id ? (
+          <View style={{ position: "absolute", left: "5%", top: "5%" }}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("ModifyMedia", { file })}
+            >
+              <Setting width={40} height={40}></Setting>
+            </TouchableOpacity>
+          </View>
+        ) : null}
+
         <View style={styles.likeButton}>
           {likeState ? (
             <TouchableOpacity onPress={() => favouritePost()}>
