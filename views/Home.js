@@ -14,7 +14,6 @@ const Home = ({ navigation }) => {
   const { allMedia, allTags } = useMedia();
 
   useEffect(() => {
-    //getMediaByTag().then((media) => setMedia(media));
     getUserAvatar();
   }, []);
 

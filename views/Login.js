@@ -7,7 +7,7 @@ import useLogin from "../hooks/LoginApi";
 import { View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import styles from "../styles/Login.style";
-import Wall from '../assets/Images/wall.svg'
+import Wall from "../assets/Images/wall.svg";
 
 const Login = ({ navigation }) => {
   const { setUser, setLoggedIn } = useContext(MainContext);
@@ -30,6 +30,7 @@ const Login = ({ navigation }) => {
       const user = await getUserByToken();
       setUser(user);
       setLoggedIn(true);
+      navigation.navigate("Home");
     } catch (error) {
       //console.error("checkToken()", error.message);
     }
@@ -38,9 +39,10 @@ const Login = ({ navigation }) => {
   const login = async (userCredentials) => {
     try {
       const user = await postLogin(userCredentials);
-      console.log(user)
+      console.log(user);
       setUser(user.user);
       setLoggedIn(true);
+      navigation.navigate("Home");
     } catch (error) {
       console.error("login():", error.message);
     }
