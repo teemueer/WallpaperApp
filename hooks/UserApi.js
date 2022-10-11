@@ -4,11 +4,11 @@ import { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { baseUrl } from "../utils/config";
 import myFetch from "../utils/myFetch";
-import useFavourite from '../hooks/FavouriteApi';
+import useFavourite from '../hooks/FavouriteApi';import useTag from "./TagApi";
 
 const useUser = () => {
   const { user, setAvatar } = useContext(MainContext);
-
+  const {postTag} = useTag();
   const { getFavourites } = useFavourite();
 
   const getUserFavourites = async (user) => {
@@ -40,9 +40,36 @@ const useUser = () => {
     }
   };
 
+  const deleteUserAvatar = async () => {
+    try {
+      const getAvatarData = await myFetch(`${baseUrl}/tags/avatar_${user.user_id}`);
+      console.log(getAvatarData.length);
+      if(!getAvatarData.length == 0){
+      await myFetch(`${baseUrl}/media/${getAvatarData[0].file_id}`, "DELETE");
+      }
+      return
+    } catch (error) {
+       throw new Error(error.message);
+    }
+  }
+
+  const postUserAvatar = async (data) =>{
+    console.log(data);
+    
+    try {
+      const json = await myFetch(`${baseUrl}/media`, "POST", data, false);
+      await postTag({file_id:json.file_id, tag:`avatar_${user.user_id}`})
+      return json;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+    
+  }
+
+
   const getUserAvatarById = async (userId) => {
     try {
-      const avatar = await myFetch(`${baseUrl}/tags/avatar_${2130}`);
+      const avatar = await myFetch(`${baseUrl}/tags/avatar_${userId}`);
       return avatar
     } catch (error) {
       throw new Error(error.message);
@@ -115,7 +142,9 @@ const useUser = () => {
     modifyUser,
     getUserById,
     getUsers,
-    getUserAvatarById
+    getUserAvatarById,
+    deleteUserAvatar,
+    postUserAvatar,
   };
 };
 

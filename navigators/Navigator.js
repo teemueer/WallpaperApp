@@ -223,7 +223,8 @@ const StackScreen = () => {
       <Stack.Screen
         name="Single"
         component={Single}
-        options={{
+        options={({ route }) => ({
+          title: route.params.file.title,
           headerStyle: {
             backgroundColor: "rgba(65, 67, 106, 1)",
             borderBottomWidth: 0,
@@ -234,7 +235,7 @@ const StackScreen = () => {
             fontWeight: "500",
           },
           headerShadowVisible: false,
-        }}
+        })}
       />
       <Stack.Screen
         name="Settings"
