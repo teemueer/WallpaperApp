@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { StyleSheet, Alert, SafeAreaView } from "react-native";
+import { Alert, SafeAreaView } from "react-native";
 import { View, Image, Text, TouchableOpacity, Modal } from "react-native";
 import useComment from "../hooks/CommentApi";
 import * as FileSystem from "expo-file-system";
@@ -13,7 +13,7 @@ import { Button, Input } from "@rneui/base";
 import useFavourite from "../hooks/FavouriteApi";
 import useUser from "../hooks/UserApi";
 import Heart from "../assets/Images/roundedHeart.svg";
-import Setting from "../assets/Images/Setting.svg";
+import Setting from "../assets/Images/settingsRound.svg";
 import RedHeart from "../assets/Images/roundedHeartRed.svg";
 import { baseUrl } from "../utils/config";
 import styles from "../styles/Single.style";
@@ -21,7 +21,7 @@ import {MainContext} from "../contexts/MainContext";
 
 //!TODO: CLean styles, TextInput to add comment, comment Logic
 
-const Single = ({ route }) => {
+const Single = ({ route, navigation }) => {
   const { getUserAvatarById } = useUser();
   const { getFavourites, postFavourite, deleteFavouriteByFileId } =
     useFavourite();
@@ -31,7 +31,7 @@ const Single = ({ route }) => {
   const [comments, setComments] = useState([]);
   const { getCommentsByFileId, postComment } = useComment();
   const [likeState, setLikeState] = useState(false);
-
+  const {user} = useContext(MainContext)
   let description = false;
   const [postAvatar, setPostAvatar] = useState(
     "https://via.placeholder.com/150"
@@ -177,7 +177,7 @@ const Single = ({ route }) => {
         </TouchableOpacity>
 
         {file.user.user_id === user.user_id ? (
-          <View style={{ position: "absolute", left: "5%", top: "5%" }}>
+          <View style={{ position: "absolute", right:'5%', top: "20%" }}>
             <TouchableOpacity
               onPress={() => navigation.navigate("ModifyMedia", { file })}
             >
