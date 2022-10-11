@@ -243,7 +243,7 @@ const StackScreen = () => {
           headerStyle: {
             backgroundColor: "rgba(65, 67, 106, 1)",
             borderBottomWidth: 0,
-            textAlign:'center',
+            textAlign: "center",
           },
           headerTintColor: "#fff",
           headerTitleStyle: {
@@ -257,6 +257,17 @@ const StackScreen = () => {
         name="ModifyMedia"
         component={ModifyMedia}
         options={{
+          headerStyle: {
+            backgroundColor: "rgba(65, 67, 106, 1)",
+            borderBottomWidth: 0,
+            textAlign: "center",
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontSize: 24,
+            fontWeight: "500",
+          },
+          headerShadowVisible: false,
           headerShadowVisible: false,
         }}
       />

@@ -125,8 +125,6 @@ const Single = ({ route, navigation }) => {
     }
   };
 
-  console.log(file.user.user_id === user.user_id);
-
   return (
     <SafeAreaView style={styles.container}>
       <Modal
