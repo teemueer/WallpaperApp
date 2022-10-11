@@ -25,28 +25,27 @@ export default StyleSheet.create({
         width: "100%",
       },
       avatar: {
-        height: 140,
-        width: 140,
-        borderRadius: 200 / 2,
+        height: 112,
+        width: 112,
+        borderRadius: 112 / 2,
         overflow: "hidden",
         borderWidth: 4,
         borderColor: "white",
       },
       avatarPosition: {
-        position: "relative",
-        left: -30,
-        top: 10,
+ 
       },
       userInfo: {
-        flexDirection:'row',
-        marginTop:'25%'
-       
+        paddingTop:7
       },
       userContainer: {
-        flex: 1.2,
+        flex: 1.05,
+        width:'100%',
         paddingTop: 10,
+        alignItems:'center'
       },
       row: {
+        width:'100%',
         flexDirection: "row",
         marginBottom: 20,
       },

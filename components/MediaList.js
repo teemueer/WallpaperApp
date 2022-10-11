@@ -2,6 +2,7 @@ import { FlatList } from "react-native";
 import MediaItem from "./MediaItem";
 
 const MediaList = ({ navigation, media }) => {
+  
   return (
     <FlatList
       data={media}

@@ -30,6 +30,7 @@ const TabScreenUser = ({ navigation }) => {
           backgroundColor: "rgba(65, 67, 106, 1)",
           borderTopWidth: 0,
         },
+        tabBarShowLabel:false
       }}
     >
       <Tab.Screen
@@ -43,18 +44,12 @@ const TabScreenUser = ({ navigation }) => {
             borderBottomWidth: 0,
           },
           headerTintColor: "#fff",
-          headerTitleStyle: {
-            fontSize: 24,
-            fontWeight: "500",
-            flex: 1,
-            textAlign: "center",
-          },
-          title: "",
+          title:"",
           headerShadowVisible: false,
           headerLeft: () => (
             <Wall
               style={{
-                marginLeft: 105,
+                marginLeft: '60%',
                 marginTop: 10,
                 shadowColor: "black",
                 shadowRadius: 3,

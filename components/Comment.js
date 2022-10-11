@@ -2,11 +2,21 @@ import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import useUser from "../hooks/UserApi";
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, color }) => {
   const { getUserById } = useUser();
   const [users, setUsers] = useState([]);
   const colors = ["#FE9677", "#F64668", "#984063"];
-  var num = 2
+  var num = color;
+
+  const convertDate = () => {
+    var date = new Date(comment.time_added);
+    var time = date.getHours() + ":" + date.getMinutes();
+    var day = date.getDate()+"/"+(date.getMonth()+1)+"/"+
+    date.getFullYear()
+    return  time +" "+day
+  };
+  const date =  convertDate();
+  
 
   useEffect(() => {
     getUserById(comment.user_id).then((user) => setUsers(user));
@@ -39,17 +49,29 @@ const Comment = ({ comment }) => {
             paddingTop: 5,
           }}
         >
-          <Text style={{ color: "white", fontWeight: "700", marginLeft: 15, fontSize:16 }}>
+          <Text
+            style={{
+              color: "white",
+              fontWeight: "700",
+              marginLeft: 15,
+              fontSize: 16,
+            }}
+          >
             {users.username}
           </Text>
           <Text style={{ color: "white", paddingRight: 10 }}>
-            {comment.time_added}
+            {date}
           </Text>
         </View>
-        <View style={{ backgroundColor: "white", padding: 10, fontWeight:'500',fontSize:18 }}>
-          <Text>
-            {comment.comment}
-          </Text>
+        <View
+          style={{
+            backgroundColor: "white",
+            padding: 10,
+            fontWeight: "500",
+            fontSize: 18,
+          }}
+        >
+          <Text>{comment.comment}</Text>
         </View>
       </View>
     </View>

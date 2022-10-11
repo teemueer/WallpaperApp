@@ -117,7 +117,7 @@ const Settings = ({ navigation }) => {
               </TouchableOpacity>
             </View>
             <View style={{ justifyContent:'center'}}>
-              <Button style={{marginBottom:20}} color={'#984063'}>choose file</Button>
+              <Button style={{marginBottom:20}} color={'#984063'} onPress={() => onSelect()}>choose file</Button>
               <Button
                 title="submit"
                 loading={isLoading}

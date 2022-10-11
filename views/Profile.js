@@ -22,6 +22,8 @@ const Profile = ({ navigation }) => {
     setLoggedIn(false);
   };
 
+  console.log(user)
+
   const toggleState = () => {
     setToggle((current) => !current);
   };
@@ -31,25 +33,22 @@ const Profile = ({ navigation }) => {
       <View style={[styles.background, { flex: 1 }]}></View>
       <View style={styles.user}>
         <View style={styles.userContainer}>
-          <View style={styles.row}>
             <View style={styles.avatarPosition}>
               <Image source={{ uri: avatar }} style={styles.avatar} />
             </View>
             <View style={styles.userInfo}>
-              <Account width={30} height={30}></Account>
-              <Text style={{ color: "white", marginLeft: 5, fontSize: 32, fontWeight:'700' }}>
+              <Text style={{ color: "white", fontSize: 32, fontWeight:'700' }}>
                 {user.username}
               </Text>
             </View>
-          </View>
           <TouchableOpacity
             onPress={() => logout()}
-            style={{ position: "absolute", top: "10%", right: -50 }}
+            style={{ position: "absolute", top: "25%", right:'10%' }}
           >
-            <LogOut width={20} height={20}></LogOut>
+            <LogOut width={22} height={22}></LogOut>
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=>navigation.navigate('Settings')}>
-          <Settings width={30} height={30}></Settings>
+          <TouchableOpacity style={{ position: "absolute", bottom: "25%", right:'10%' }} onPress={()=>navigation.navigate('Settings')}>
+          <Settings width={25} height={25}></Settings>
           </TouchableOpacity>
         </View>
         <View

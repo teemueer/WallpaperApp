@@ -162,7 +162,7 @@ const Single = ({ route, navigation }) => {
       >
         <View>
           <Image style={styles.image} source={{ uri: file.uri }}></Image>
-          <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+          <TouchableOpacity onPress={() => setModalVisible(!modalVisible)} style={{ position: "absolute", bottom: "10%", left: "43%" }} >
             <ArrowDown width={50} height={50}></ArrowDown>
           </TouchableOpacity>
         </View>
@@ -276,7 +276,7 @@ const Single = ({ route, navigation }) => {
         <Text style={{ alignSelf: "center", marginTop: "2%", color: "black" }}>
           Comments:
         </Text>
-        <View style={{ width: "97%", height: "100%", alignSelf: "center" }}>
+        <View style={{ width: "90%", height: "100%", alignSelf: "center", paddingTop:5 }}>
           <CommentList comments={comments}></CommentList>
         </View>
       </View>

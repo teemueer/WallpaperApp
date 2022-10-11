@@ -96,10 +96,10 @@ const ModifyMedia = ({ navigation, route }) => {
     description === file.description &&
     selectedTags.length === 0;
 
-  console.log(foundTags);
 
   return (
     <ScrollView style={styles.background}>
+      <View style={{backgroundColor: "#41436A"}}>
       <View style={styles.info}>
         <View>
           <Text style={styles.header}>Title</Text>
@@ -202,6 +202,7 @@ const ModifyMedia = ({ navigation, route }) => {
             disabled={buttonDisabled}
           />
         </View>
+      </View>
       </View>
     </ScrollView>
   );
