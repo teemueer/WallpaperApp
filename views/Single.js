@@ -111,15 +111,22 @@ const Single = ({ route, navigation }) => {
 
   const download = async () => {
     try {
-      const fileUri = `${FileSystem.documentDirectory}${file.filename}`;
-      const downloadedFile = await FileSystem.downloadAsync(file.uri, fileUri);
-      await MediaLibrary.saveToLibraryAsync(downloadedFile.uri);
+      const { status } = await MediaLibrary.requestPermissionsAsync();
+      console.log(status);
+      if (status === "granted") {
+        const fileUri = `${FileSystem.documentDirectory}${file.filename}`;
+        const downloadedFile = await FileSystem.downloadAsync(
+          file.uri,
+          fileUri
+        );
+        await MediaLibrary.saveToLibraryAsync(downloadedFile.uri);
 
-      Alert.alert("File saved to your filesystem", "", [
-        {
-          text: "Ok",
-        },
-      ]);
+        Alert.alert("File saved to your filesystem", "", [
+          {
+            text: "Ok",
+          },
+        ]);
+      }
     } catch (error) {
       console.error(error);
     }
