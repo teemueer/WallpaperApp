@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Text, View } from "react-native";
+import { MainContext } from "../contexts/MainContext";
 import useUser from "../hooks/UserApi";
 
 const Comment = ({ comment, color }) => {
+  const { loggedIn } = useContext(MainContext);
   const { getUserById } = useUser();
   const [users, setUsers] = useState([]);
   const colors = ["#FE9677", "#F64668", "#984063"];
@@ -11,15 +13,14 @@ const Comment = ({ comment, color }) => {
   const convertDate = () => {
     var date = new Date(comment.time_added);
     var time = date.getHours() + ":" + date.getMinutes();
-    var day = date.getDate()+"/"+(date.getMonth()+1)+"/"+
-    date.getFullYear()
-    return  time +" "+day
+    var day =
+      date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+    return time + " " + day;
   };
-  const date =  convertDate();
-  
+  const date = convertDate();
 
   useEffect(() => {
-    getUserById(comment.user_id).then((user) => setUsers(user));
+    if (loggedIn) getUserById(comment.user_id).then((user) => setUsers(user));
   }, []);
 
   return (
@@ -59,9 +60,7 @@ const Comment = ({ comment, color }) => {
           >
             {users.username}
           </Text>
-          <Text style={{ color: "white", paddingRight: 10 }}>
-            {date}
-          </Text>
+          <Text style={{ color: "white", paddingRight: 10 }}>{date}</Text>
         </View>
         <View
           style={{

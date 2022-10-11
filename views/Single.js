@@ -17,7 +17,7 @@ import Setting from "../assets/Images/settingsRound.svg";
 import RedHeart from "../assets/Images/roundedHeartRed.svg";
 import { baseUrl } from "../utils/config";
 import styles from "../styles/Single.style";
-import {MainContext} from "../contexts/MainContext";
+import { MainContext } from "../contexts/MainContext";
 
 //!TODO: CLean styles, TextInput to add comment, comment Logic
 
@@ -31,24 +31,23 @@ const Single = ({ route, navigation }) => {
   const [comments, setComments] = useState([]);
   const { getCommentsByFileId, postComment } = useComment();
   const [likeState, setLikeState] = useState(false);
-  const {user} = useContext(MainContext)
+  const { user, loggedIn } = useContext(MainContext);
   let description = false;
   const [postAvatar, setPostAvatar] = useState(
     "https://via.placeholder.com/150"
   );
- 
 
   if (file.description != "") {
     description = true;
   }
 
+  console.log(file);
 
   useEffect(() => {
     fetchAvatar();
     fetchComments();
-    fetchFavourites();
+    if (loggedIn) fetchFavourites();
   }, []);
-
 
   //Fetch posters avatar. If there is no avatar use placeholder image!
   const fetchAvatar = async () => {
@@ -65,7 +64,6 @@ const Single = ({ route, navigation }) => {
     getCommentsByFileId(file.file_id).then((comment) => setComments(comment));
   };
 
-
   //Fetches list of users favourites, ad IF the current post is in that set of
   //Favourites change Heart to red.
 
@@ -77,7 +75,6 @@ const Single = ({ route, navigation }) => {
       }
     }
   };
-
 
   //Either adds post to favourites OR un-favourites current post.
   const favouritePost = async () => {
@@ -91,7 +88,7 @@ const Single = ({ route, navigation }) => {
         setLikeState(!likeState);
       } else {
         const res = await deleteFavouriteByFileId(file.file_id);
-        juho-comments-single
+        juho - comments - single;
         Alert.alert(res.message);
         fetchFavourites();
         setLikeState(!likeState);
@@ -162,7 +159,10 @@ const Single = ({ route, navigation }) => {
       >
         <View>
           <Image style={styles.image} source={{ uri: file.uri }}></Image>
-          <TouchableOpacity onPress={() => setModalVisible(!modalVisible)} style={{ position: "absolute", bottom: "10%", left: "43%" }} >
+          <TouchableOpacity
+            onPress={() => setModalVisible(!modalVisible)}
+            style={{ position: "absolute", bottom: "10%", left: "43%" }}
+          >
             <ArrowDown width={50} height={50}></ArrowDown>
           </TouchableOpacity>
         </View>
@@ -176,8 +176,8 @@ const Single = ({ route, navigation }) => {
           <Image style={[styles.image]} source={{ uri: file.uri }} />
         </TouchableOpacity>
 
-        {file.user.user_id === user.user_id ? (
-          <View style={{ position: "absolute", right:'5%', top: "20%" }}>
+        {file.user_id === user.user_id ? (
+          <View style={{ position: "absolute", right: "5%", top: "20%" }}>
             <TouchableOpacity
               onPress={() => navigation.navigate("ModifyMedia", { file })}
             >
@@ -186,17 +186,19 @@ const Single = ({ route, navigation }) => {
           </View>
         ) : null}
 
-        <View style={styles.likeButton}>
-          {likeState ? (
-            <TouchableOpacity onPress={() => favouritePost()}>
-              <RedHeart width={40} height={40}></RedHeart>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity onPress={() => favouritePost()}>
-              <Heart width={40} height={40}></Heart>
-            </TouchableOpacity>
-          )}
-        </View>
+        {loggedIn ? (
+          <View style={styles.likeButton}>
+            {likeState ? (
+              <TouchableOpacity onPress={() => favouritePost()}>
+                <RedHeart width={40} height={40}></RedHeart>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity onPress={() => favouritePost()}>
+                <Heart width={40} height={40}></Heart>
+              </TouchableOpacity>
+            )}
+          </View>
+        ) : null}
         <View style={styles.actionCluster}>
           <TouchableOpacity
             onPress={() => download()}
@@ -204,9 +206,11 @@ const Single = ({ route, navigation }) => {
           >
             <Download width={40} height={40} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setInputVisible(!inputVisible)}>
-            <Comment width={40} height={40} />
-          </TouchableOpacity>
+          {loggedIn ? (
+            <TouchableOpacity onPress={() => setInputVisible(!inputVisible)}>
+              <Comment width={40} height={40} />
+            </TouchableOpacity>
+          ) : null}
         </View>
 
         <View style={styles.postAvatarContainer}>
@@ -216,14 +220,12 @@ const Single = ({ route, navigation }) => {
               Posted by:
             </Text>
             <Text style={{ color: "white", fontSize: 24, fontWeight: "700" }}>
-              {file.user.username}
+              {loggedIn ? file.user.username : file.user_id}
             </Text>
           </View>
         </View>
         {description ? (
-          <View
-            style={styles.floatingDescription}
-          >
+          <View style={styles.floatingDescription}>
             <Text style={[styles.description, { alignSelf: "center" }]}>
               {file.description}
             </Text>
@@ -276,7 +278,14 @@ const Single = ({ route, navigation }) => {
         <Text style={{ alignSelf: "center", marginTop: "2%", color: "black" }}>
           Comments:
         </Text>
-        <View style={{ width: "90%", height: "100%", alignSelf: "center", paddingTop:5 }}>
+        <View
+          style={{
+            width: "90%",
+            height: "100%",
+            alignSelf: "center",
+            paddingTop: 5,
+          }}
+        >
           <CommentList comments={comments}></CommentList>
         </View>
       </View>

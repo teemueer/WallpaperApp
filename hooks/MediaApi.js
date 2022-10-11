@@ -15,7 +15,7 @@ const useMedia = () => {
   const [allMedia, setAllMedia] = useState([]);
   const [allTags, setAllTags] = useState([]);
 
-  const { update } = useContext(MainContext);
+  const { update, loggedIn } = useContext(MainContext);
 
   const getMediaDetailsAndSort = async (json) => {
     // get file details
@@ -44,12 +44,14 @@ const useMedia = () => {
     );
 
     // get user info
-    json = await Promise.all(
-      json.map(async (item) => {
-        let user = await getUserById(item.user_id);
-        return { ...item, user };
-      })
-    );
+    if (loggedIn) {
+      json = await Promise.all(
+        json.map(async (item) => {
+          let user = await getUserById(item.user_id);
+          return { ...item, user };
+        })
+      );
+    }
 
     // add uri to the object
     json = json.map((item) => ({
