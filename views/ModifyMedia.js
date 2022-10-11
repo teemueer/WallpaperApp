@@ -151,7 +151,7 @@ const ModifyMedia = ({ navigation, route }) => {
 
         <View>
           {selectedTags.map((tag, idx) => (
-            <Tag key={idx} tag={tag} color="green" onPress={removeTag} />
+            <Button key={idx} tag={tag} color="green" onPress={removeTag} />
           ))}
         </View>
 
