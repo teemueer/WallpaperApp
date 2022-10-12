@@ -303,7 +303,6 @@ const Navigator = () => {
       setUser(user);
       setLoggedIn(true);
       setUpdate(!update);
-      navigation.navigate("Home");
     } catch (error) {
       //console.error("checkToken()", error.message);
     }
