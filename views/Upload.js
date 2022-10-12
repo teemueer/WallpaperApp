@@ -12,7 +12,7 @@ import Error from "../components/Error";
 
 const Upload = ({ navigation }) => {
   const [image, setImage] = useState(null);
-  const { postMedia } = useMedia();
+  const { postMedia, getMediaDetailsAndSort } = useMedia();
   const [modalVisible, setModalVisible] = useState(false);
 
   const { update, setUpdate } = useContext(MainContext);
@@ -31,16 +31,21 @@ const Upload = ({ navigation }) => {
     setIsLoading(true);
     try {
       const res = await postMedia(formData);
-      Alert.alert(res.message, "", [
-        {
-          text: "Ok",
-          onPress: () => {
-            resetForm();
-            setUpdate(!update);
-            navigation.navigate("Home");
+      const newFile = (await getMediaDetailsAndSort([res]))[0];
+      Alert.alert(
+        res.message,
+        "Remember to modify tags for your file after upload!",
+        [
+          {
+            text: "Ok",
+            onPress: () => {
+              resetForm();
+              setUpdate(!update);
+              navigation.navigate("Single", { file: newFile });
+            },
           },
-        },
-      ]);
+        ]
+      );
     } catch (error) {
       Error("Upload failed.");
     } finally {
@@ -135,25 +140,6 @@ const Upload = ({ navigation }) => {
                 />
               )}
               name="description"
-            />
-          </View>
-          <View style={styles.input}>
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-                minLength: 3,
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Input
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  placeholder="Insert tags"
-                  autoCapitalize="words"
-                />
-              )}
-              name="tags"
             />
           </View>
         </View>
