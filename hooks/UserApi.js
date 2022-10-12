@@ -32,6 +32,7 @@ const useUser = () => {
 
   const getUserAvatar = async () => {
     try {
+      console.log(user.user_id)
       const avatar = await myFetch(`${baseUrl}/tags/avatar_${user.user_id}`);
       setAvatar(`${baseUrl}/uploads/${avatar[0].filename}`);
     } catch (error) {

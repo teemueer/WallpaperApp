@@ -89,6 +89,7 @@ const TabScreen = ({ navigation }) => {
             name="Profile"
             component={Profile}
             options={{
+              headerTitleAlign: 'center',
               tabBarIcon: () => <Icon name="person" color={iconColor} />,
               headerStyle: {
                 backgroundColor: "rgba(65, 67, 106, 1)",
@@ -119,6 +120,7 @@ const TabScreen = ({ navigation }) => {
             component={Upload}
             options={{
               tabBarIcon: () => <Icon name="cloud-upload" color={iconColor} />,
+              headerTitleAlign: 'center',
               headerStyle: {
                 backgroundColor: "rgba(65, 67, 106, 1)",
                 borderBottomWidth: 0,
@@ -179,6 +181,7 @@ const TabScreen = ({ navigation }) => {
         name="Search"
         component={Search}
         options={{
+          headerTitleAlign: 'center',
           tabBarIcon: () => <Icon name="search" color={iconColor} />,
           headerStyle: {
             backgroundColor: "rgba(65, 67, 106, 1)",
@@ -240,6 +243,7 @@ const StackScreen = () => {
         name="Settings"
         component={Settings}
         options={{
+          headerTitleAlign: 'center',
           headerStyle: {
             backgroundColor: "rgba(65, 67, 106, 1)",
             borderBottomWidth: 0,
@@ -257,6 +261,7 @@ const StackScreen = () => {
         name="ModifyMedia"
         component={ModifyMedia}
         options={{
+          headerTitleAlign: 'center',
           headerStyle: {
             backgroundColor: "rgba(65, 67, 106, 1)",
             borderBottomWidth: 0,
@@ -285,6 +290,7 @@ const StackScreen = () => {
             fontWeight: "500",
           },
           headerShadowVisible: false,
+          headerShown:false 
         }}
       />
       <Stack.Screen
