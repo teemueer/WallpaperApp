@@ -33,6 +33,7 @@ const useUser = () => {
   const getUserAvatar = async (user_id) => {
     try {
       const avatar = await myFetch(`${baseUrl}/tags/avatar_${user_id}`);
+      console.log(avatar[0].filename)
       setAvatar(`${baseUrl}/uploads/${avatar[0].filename}`);
     } catch (error) {
       throw new Error(error.message);
@@ -97,12 +98,15 @@ const useUser = () => {
   */
 
   const modifyUser = async (data) => {
+    console.log('modifyUser();', data)
+    
     try {
       const json = await myFetch(`${baseUrl}/users`, "PUT", data);
       return json;
     } catch (error) {
       throw new Error(error.message);
     }
+    
   };
 
   const getUserById = async (id) => {
