@@ -10,13 +10,14 @@ import Upload from "../views/Upload";
 import Single from "../views/Single";
 import Settings from "../views/Settings";
 import { Button, Icon } from "@rneui/base";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { MainContext } from "../contexts/MainContext";
 import PropTypes from "prop-types";
 import { Image, TouchableOpacity } from "react-native";
 import Wall from "../assets/Images/wall.svg";
 import ModifyMedia from "../views/ModifyMedia";
 import LogOut from "../assets/Images/logout.svg";
+import useUser from "../hooks/UserApi";
 
 const Tab = createBottomTabNavigator();
 const iconColor = "white";
@@ -153,7 +154,7 @@ const TabScreen = ({ navigation }) => {
               backgroundColor: "rgba(65, 67, 106, 1)",
               borderBottomWidth: 0,
             },
-            headerShown:false,
+            headerShown: false,
             headerTintColor: "#fff",
             headerTitleStyle: {
               fontSize: 24,
@@ -233,7 +234,7 @@ const StackScreen = () => {
             fontWeight: "500",
           },
           headerShadowVisible: false,
-          headerTitleAlign:'center'
+          headerTitleAlign: "center",
         })}
       />
       <Stack.Screen
@@ -271,27 +272,10 @@ const StackScreen = () => {
         }}
       />
       <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{
-          headerStyle: {
-            backgroundColor: "rgba(65, 67, 106, 1)",
-            borderBottomWidth: 0,
-            textAlign: "center",
-          },
-          headerTintColor: "#fff",
-          headerTitleStyle: {
-            fontSize: 24,
-            fontWeight: "500",
-          },
-          headerShadowVisible: false,
-        }}
-      />
-      <Stack.Screen
         name="Register"
         component={Register}
         options={{
-          headerShown:false,
+          headerShown: false,
           headerStyle: {
             backgroundColor: "rgba(65, 67, 106, 1)",
             borderBottomWidth: 0,
@@ -309,11 +293,32 @@ const StackScreen = () => {
   );
 };
 
-const Navigator = () => (
-  <NavigationContainer>
-    <StackScreen />
-  </NavigationContainer>
-);
+const Navigator = () => {
+  const { setUser, setLoggedIn, update, setUpdate } = useContext(MainContext);
+  const { getUserByToken } = useUser();
+
+  const checkToken = async () => {
+    try {
+      const user = await getUserByToken();
+      setUser(user);
+      setLoggedIn(true);
+      setUpdate(!update);
+      navigation.navigate("Home");
+    } catch (error) {
+      //console.error("checkToken()", error.message);
+    }
+  };
+
+  useEffect(() => {
+    checkToken();
+  }, []);
+
+  return (
+    <NavigationContainer>
+      <StackScreen />
+    </NavigationContainer>
+  );
+};
 
 Upload.propTypes = {
   navigation: PropTypes.object,
