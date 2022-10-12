@@ -25,7 +25,7 @@ const ModifyMedia = ({ navigation, route }) => {
 
   const search = async (event) => {
     const tagToSearch = event.nativeEvent.text;
-    if (tagToSearch.length > 1) {
+    if (tagToSearch.length > 0) {
       const foundTags = allTags.filter(
         (tag) => !selectedTags.includes(tag) && tag.includes(tagToSearch)
       );
