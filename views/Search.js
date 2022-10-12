@@ -1,7 +1,10 @@
 import { Card, Input, Button } from "@rneui/base";
-import { useEffect, useState } from "react";
+import {useEffect, useRef, useState} from 'react';
 import { Controller, useForm } from "react-hook-form";
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {
+  SafeAreaView, Text, TouchableOpacity,
+  View,
+} from 'react-native';
 import MediaList from "../components/MediaList";
 import Magnifier from "../assets/Images/magnifier.svg";
 import styles from "../styles/Search.style";
@@ -11,20 +14,20 @@ import useMedia from "../hooks/MediaApi";
 const Tag = ({ tag, onPress, selected = false }) => (
   <Button
     color={selected ? "#FE9677" : "#41436A"}
-    title={tag}
+    style={ styles.buttonStyle}
+    title={selected ? tag + "     X" : tag}
     onPress={() => onPress(tag)}
-    style={{ marginRight: 2 }}
   />
 );
 
 const Search = ({ navigation }) => {
   const { allTags, filterMediaByTags } = useMedia();
-
   const [foundTags, setFoundTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
 
-  const [media, setMedia] = useState([]);
 
+
+  const [media, setMedia] = useState([]);
   const search = async (event) => {
     const tagToSearch = event.nativeEvent.text;
     if (tagToSearch.length > 0) {
@@ -55,6 +58,8 @@ const Search = ({ navigation }) => {
     }
   }, [selectedTags]);
 
+
+
   const {
     control,
     handleSubmit,
@@ -67,8 +72,8 @@ const Search = ({ navigation }) => {
   });
 
   return (
-    <>
-      <View
+<>
+      <SafeAreaView
         style={styles.container}
       >
         <View
@@ -80,6 +85,7 @@ const Search = ({ navigation }) => {
             <View
               style={styles.input}
             >
+
               <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
@@ -100,7 +106,7 @@ const Search = ({ navigation }) => {
               <Magnifier width={32} height={32}></Magnifier>
             </View>
           </View>
-          <ScrollView>
+
             <View
               style={styles.tagContainer}
             >
@@ -108,20 +114,16 @@ const Search = ({ navigation }) => {
                 <Tag key={idx} tag={tag} onPress={removeTag} selected={true} />
               ))}
             </View>
+              <View style={styles.tag}>
 
-
-            <View style={styles.tag}>
               {foundTags.map((tag, idx) => (
                 <Tag key={idx} tag={tag} onPress={selectTag} />
               ))}
+              </View>
+              {media ? <MediaList media={media} navigation={navigation} /> : null}
             </View>
-
-
-          {media ? <MediaList media={media} navigation={navigation} /> : null}
-        </ScrollView>
-        </View>
-      </View>
-    </>
+      </SafeAreaView>
+</>
   );
 };
 

@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    display: "flex",
     backgroundColor: "rgba(65, 67, 106, 1)",
   },
   b:{
@@ -31,6 +30,7 @@ export default StyleSheet.create({
     padding: 0,
     margin: 0,
     paddingLeft: 5,
+
   },
   magnifier: {
     position: "absolute",
@@ -46,12 +46,17 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     marginBottom: 10,
+    flexWrap: 'wrap',
   },
   tag: {
     flexDirection: "row",
     justifyContent: "center",
     width: "90%",
     flexWrap: 'wrap',
-  }
+  },
+  buttonStyle:{
+    marginRight: 2,
+    padding: 10,
+  },
 
 });
