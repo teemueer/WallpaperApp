@@ -15,6 +15,7 @@ const ProfilePosts = ({ navigation }) => {
     //getMediaByUserId(user.user_id).then((res)=> setMedia(res))
   }, []);
 
+
   return (
     <View style={{ flex: 1 }}>
       <MediaList media={media} navigation={navigation} />

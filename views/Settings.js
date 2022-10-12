@@ -59,7 +59,8 @@ const Settings = ({ navigation }) => {
     }
   };
 
-  const changeCredentials = async (credentials) => {
+
+  const changeCredentials =  async(credentials) => {
     if (credentials.username === "") {
       delete credentials.username;
     }
@@ -75,7 +76,6 @@ const Settings = ({ navigation }) => {
       const user =  await getUserByToken();
       setUser(user);
      }
-     console.log(a)
   };
 
   const {
@@ -165,6 +165,7 @@ const Settings = ({ navigation }) => {
             rules={{
               required: false,
               validate: async (value) => {
+                if(value.length === 0){return true}
                 if (!(await checkUsername(value))) {
                   return "Username is already taken!";
                 }
@@ -204,6 +205,7 @@ const Settings = ({ navigation }) => {
                 value={value}
                 keyboardType="email-address"
                 textContentType="emailAddress"
+                autoCapitalize="none"
                 placeholder={user.email}
                 errorMessage={
                   errors.username && <Text>This field is required!</Text>

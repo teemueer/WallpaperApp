@@ -98,15 +98,12 @@ const useUser = () => {
   */
 
   const modifyUser = async (data) => {
-    console.log('modifyUser();', data)
-    
     try {
       const json = await myFetch(`${baseUrl}/users`, "PUT", data);
       return json;
     } catch (error) {
       throw new Error(error.message);
     }
-    
   };
 
   const getUserById = async (id) => {
