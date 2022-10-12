@@ -49,7 +49,7 @@ const Settings = ({ navigation }) => {
       await deleteUserAvatar();
       const res = await postUserAvatar(formData);
       console.log(res);
-      getUserAvatar();
+      await getUserAvatar();
     } catch (error) {
       Error("Upload failed.");
     } finally {
