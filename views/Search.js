@@ -1,15 +1,16 @@
 import { Card, Input, Button } from "@rneui/base";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { StyleSheet, View } from "react-native";
+import {ScrollView, StyleSheet, View} from 'react-native';
 import MediaList from "../components/MediaList";
 import Magnifier from "../assets/Images/magnifier.svg";
+import styles from "../styles/Search.style";
 
 import useMedia from "../hooks/MediaApi";
 
 const Tag = ({ tag, onPress, selected = false }) => (
   <Button
-    color={selected ? "green" : "blue"}
+    color={selected ? "#FE9677" : "#41436A"}
     title={tag}
     onPress={() => onPress(tag)}
     style={{ marginRight: 2 }}
@@ -68,37 +69,16 @@ const Search = ({ navigation }) => {
   return (
     <>
       <View
-        style={{
-          flex: 1,
-          display: "flex",
-          backgroundColor: "rgba(65, 67, 106, 1)",
-        }}
+        style={styles.container}
       >
         <View
-          style={{ backgroundColor: "rgba(65, 67, 106, 1)", flex: 1 }}
-        ></View>
-        <View
-          style={{
-            flex: 50,
-            backgroundColor: "white",
-            borderTopRightRadius: 45,
-            borderTopLeftRadius: 45,
-          }}
+          style={styles.background}
         >
           <View
-            style={{ alignItems: "center", paddingTop: 20, marginBottom: 10 }}
+            style={styles.itemContainer}
           >
             <View
-              style={{
-                width: "80%",
-                borderColor: "#41436A",
-                height: 50,
-                borderWidth: 2,
-                borderRadius: 20,
-                padding: 0,
-                margin: 0,
-                paddingLeft: 5,
-              }}
+              style={styles.input}
             >
               <Controller
                 control={control}
@@ -116,37 +96,29 @@ const Search = ({ navigation }) => {
                 name="search"
               />
             </View>
-            <View style={{ position: "absolute", right: "12%", top: "54%" }}>
+            <View style={styles.magnifier}>
               <Magnifier width={32} height={32}></Magnifier>
             </View>
           </View>
-          <View
-            style={{
-              justifyContent: "center",
-              backgroundColor: "red",
-              padding: 20,
-            }}
-          >
+          <ScrollView>
             <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                marginBottom: 10,
-              }}
+              style={styles.tagContainer}
             >
               {selectedTags.map((tag, idx) => (
                 <Tag key={idx} tag={tag} onPress={removeTag} selected={true} />
               ))}
             </View>
 
-            <View style={{ flexDirection: "row", justifyContent: "center" }}>
+
+            <View style={styles.tag}>
               {foundTags.map((tag, idx) => (
                 <Tag key={idx} tag={tag} onPress={selectTag} />
               ))}
             </View>
-          </View>
+
 
           {media ? <MediaList media={media} navigation={navigation} /> : null}
+        </ScrollView>
         </View>
       </View>
     </>
