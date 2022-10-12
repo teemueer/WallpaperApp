@@ -88,7 +88,7 @@ const Single = ({ route, navigation }) => {
         setLikeState(!likeState);
       } else {
         const res = await deleteFavouriteByFileId(file.file_id);
-        juho - comments - single;
+        //juho - comments - single;
         Alert.alert(res.message);
         fetchFavourites();
         setLikeState(!likeState);
