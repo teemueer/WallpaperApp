@@ -15,7 +15,7 @@ const useMedia = () => {
   const [allMedia, setAllMedia] = useState([]);
   const [allTags, setAllTags] = useState([]);
 
-  const { update, loggedIn } = useContext(MainContext);
+  const { user, update, loggedIn } = useContext(MainContext);
 
   const getMediaDetailsAndSort = async (json) => {
     // get file details
@@ -108,6 +108,11 @@ const useMedia = () => {
     try {
       let json = await myFetch(`${baseUrl}/media/user`, "GET");
       json = await getMediaDetailsAndSort(json);
+      json = json.filter((media) => {
+        for (const tag of media.tags) {
+          if (!tag.startsWith("avatar_")) return media;
+        }
+      });
       return json;
     } catch (error) {
       throw new Error(error.message);

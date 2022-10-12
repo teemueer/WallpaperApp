@@ -18,7 +18,7 @@ const Settings = ({ navigation }) => {
     modifyUser,
     getUserByToken,
   } = useUser();
-  const { user, avatar , setUser} = useContext(MainContext);
+  const { user, avatar, setUser } = useContext(MainContext);
   const [image, setImage] = useState(null);
   const { update, setUpdate } = useContext(MainContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +36,6 @@ const Settings = ({ navigation }) => {
     }
   };
 
-
   const imageUpload = async () => {
     const ext = image.uri.split(".").pop();
     const formData = new FormData();
@@ -51,16 +50,16 @@ const Settings = ({ navigation }) => {
       await deleteUserAvatar();
       const res = await postUserAvatar(formData);
       console.log(res);
+      Alert.alert("Avatar changed");
     } catch (error) {
-      Error("Upload failed.");
+      Error("Avatar change failed.");
     } finally {
       setIsLoading(false);
       getUserAvatar(user.user_id);
     }
   };
 
-
-  const changeCredentials =  async(credentials) => {
+  const changeCredentials = async (credentials) => {
     if (credentials.username === "") {
       delete credentials.username;
     }
@@ -70,12 +69,13 @@ const Settings = ({ navigation }) => {
     if (credentials.password === "") {
       delete credentials.password;
     }
-     const a =  await modifyUser(credentials);
-     if(a.message){
-      Alert.alert("Details updated!")
-      const user =  await getUserByToken();
+    const a = await modifyUser(credentials);
+    if (a.message) {
+      Alert.alert("Details updated!");
+      const user = await getUserByToken();
       setUser(user);
-     }
+      navigation.navigate("Profile");
+    }
   };
 
   const {
@@ -165,7 +165,9 @@ const Settings = ({ navigation }) => {
             rules={{
               required: false,
               validate: async (value) => {
-                if(value.length === 0){return true}
+                if (value.length === 0) {
+                  return true;
+                }
                 if (!(await checkUsername(value))) {
                   return "Username is already taken!";
                 }
