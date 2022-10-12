@@ -137,6 +137,7 @@ const Register = ({ navigation }) => {
                 value={value}
                 placeholder="password"
                 autoCapitalize="none"
+                secureTextEntry={true}
                 errorMessage={
                   errors.password && <Text>{errors.password.message}</Text>
                 }
