@@ -269,6 +269,23 @@ const StackScreen = () => {
         }}
       />
       <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          headerStyle: {
+            backgroundColor: "rgba(65, 67, 106, 1)",
+            borderBottomWidth: 0,
+            textAlign: "center",
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontSize: 24,
+            fontWeight: "500",
+          },
+          headerShadowVisible: false,
+        }}
+      />
+      <Stack.Screen
         name="Register"
         component={Register}
         options={{

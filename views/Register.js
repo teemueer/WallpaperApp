@@ -6,11 +6,12 @@ import { MainContext } from "../contexts/MainContext";
 import { LinearGradient } from "expo-linear-gradient";
 import useUser from "../hooks/UserApi";
 import styles from "../styles/Register.style";
-import Wall from '../assets/Images/wall.svg'
-
+import Wall from "../assets/Images/wall.svg";
+import useLogin from "../hooks/LoginApi";
 
 const Register = ({ navigation }) => {
   const { postUser, checkUsername } = useUser();
+  const { postLogin } = useLogin();
   const { setUser, setLoggedIn } = useContext(MainContext);
 
   const {
@@ -33,8 +34,9 @@ const Register = ({ navigation }) => {
       console.log(userCredentials);
       const registerUser = await postUser(userCredentials);
       if (registerUser) {
-        setUser(registerUser);
-        setLoggedIn(registerUser);
+        //setUser(registerUser);
+        //setLoggedIn(registerUser);
+        await postLogin(userCredentials);
         Alert.alert("Success", "Account has been created");
         navigation.navigate("Login");
       }
@@ -47,7 +49,7 @@ const Register = ({ navigation }) => {
     <View style={styles.container}>
       <LinearGradient colors={["#41436A", "#984063"]} style={styles.gradient} />
       <View style={styles.imageContainer}>
-        <Wall/>
+        <Wall />
       </View>
       <View
         style={{
@@ -104,6 +106,7 @@ const Register = ({ navigation }) => {
                 keyboardType="email-address"
                 textContentType="emailAddress"
                 placeholder="email"
+                autoCapitalize="none"
                 errorMessage={
                   errors.username && <Text>This field is required!</Text>
                 }
@@ -168,11 +171,11 @@ const Register = ({ navigation }) => {
         <View>
           <Button
             title="Login"
-            onPress={()=>navigation.navigate('Login')}
+            onPress={() => navigation.navigate("Login")}
             color="#984063"
             style={styles.buttonStyle}
           >
-            <Text style={styles.buttonText} >Log In</Text>
+            <Text style={styles.buttonText}>Log In</Text>
           </Button>
         </View>
         <View style={{ marginLeft: 10 }}>
@@ -186,10 +189,6 @@ const Register = ({ navigation }) => {
           </Button>
         </View>
       </View>
-
-
-
-
     </View>
   );
 };
