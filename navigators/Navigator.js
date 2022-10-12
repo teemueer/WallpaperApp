@@ -46,18 +46,8 @@ const TabScreen = ({ navigation }) => {
             borderBottomWidth: 0,
           },
           headerTintColor: "#fff",
-          title: "",
           headerShadowVisible: false,
-          headerLeft: () => (
-            <Wall
-              style={{
-                marginLeft: "60%",
-                marginTop: 10,
-                shadowColor: "black",
-                shadowRadius: 3,
-              }}
-            ></Wall>
-          ),
+          headerTitle: () => <Wall width={100} height={100}/>,
           headerRight: () => (
             <TouchableOpacity
               onPress={() => {
@@ -277,7 +267,6 @@ const StackScreen = () => {
         }}
       />
       <Stack.Screen
-<<<<<<< HEAD
         name="Login"
         component={Login}
         options={{
@@ -296,8 +285,6 @@ const StackScreen = () => {
         }}
       />
       <Stack.Screen
-=======
->>>>>>> c2d62b5d58d525eb4111fbec4331b90978eab559
         name="Register"
         component={Register}
         options={{
@@ -321,12 +308,14 @@ const StackScreen = () => {
 
 const Navigator = () => {
   const { setUser, setLoggedIn, update, setUpdate } = useContext(MainContext);
-  const { getUserByToken } = useUser();
+  const { getUserByToken, getUserAvatar } = useUser();
 
   const checkToken = async () => {
     try {
       const user = await getUserByToken();
+      console.log(user)
       setUser(user);
+      getUserAvatar(user.user_id)
       setLoggedIn(true);
       setUpdate(!update);
     } catch (error) {

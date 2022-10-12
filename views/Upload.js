@@ -2,7 +2,7 @@ import { Button, Card, Input, Text } from "@rneui/base";
 import { Controller, useForm } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import { useContext, useState } from "react";
-import { Alert, Modal, View } from "react-native";
+import { Alert, Modal, TouchableOpacity, View } from "react-native";
 import { MainContext } from "../contexts/MainContext";
 import useMedia from "../hooks/MediaApi";
 import styles from "../styles/Upload.style";
@@ -78,12 +78,15 @@ const Upload = ({ navigation }) => {
 
   return (
     <View style={styles.background}>
+      <View style={styles.spacer}></View>
       <View style={styles.container}>
         <View>
+          <TouchableOpacity onPress={onSelect}>
           <Image
             source={{ uri: image?.uri || "https://placekitten.com/300" }}
             style={styles.imageStyle}
           />
+          </TouchableOpacity>
         </View>
         <View
           style={{
@@ -158,32 +161,26 @@ const Upload = ({ navigation }) => {
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <View>
-            <Button
-              title="Select file"
-              onPress={onSelect}
-              color="#984063"
-              style={styles.buttonStyle}
-            />
-          </View>
-          <View style={{ marginLeft: 10 }}>
-            <Button
-              title="Reset"
-              onPress={resetForm}
-              color="#FE9677"
-              style={styles.buttonStyle}
-            />
-          </View>
-          <View style={{ marginLeft: 10 }}>
-            <Button
-              title="Upload media"
-              disabled={!image}
-              loading={isLoading}
-              onPress={handleSubmit(onUpload)}
-              color="#984063"
-              style={styles.buttonStyle}
-            ></Button>
-          </View>
+          <Button
+            title="Select file"
+            onPress={onSelect}
+            color="#984063"
+            style={styles.buttonStyle}
+          />
+          <Button
+            title="Reset"
+            onPress={resetForm}
+            color="#FE9677"
+            style={styles.buttonStyle}
+          />
+          <Button
+            title="Post"
+            disabled={!image}
+            loading={isLoading}
+            onPress={handleSubmit(onUpload)}
+            color="#984063"
+            style={styles.buttonStyle}
+          ></Button>
         </View>
       </View>
     </View>
