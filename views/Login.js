@@ -8,6 +8,7 @@ import { View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import styles from "../styles/Login.style";
 import Wall from "../assets/Images/wall.svg";
+import Error from "../components/Error";
 
 const Login = ({ navigation }) => {
   const { setUser, setLoggedIn, update, setUpdate } = useContext(MainContext);
@@ -46,7 +47,8 @@ const Login = ({ navigation }) => {
       setUpdate(!update);
       navigation.navigate("Home");
     } catch (error) {
-      console.error("login():", error.message);
+      //console.error("login():", error.message);
+      Error("Wrong username or password");
     }
   };
 

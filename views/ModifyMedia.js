@@ -6,6 +6,7 @@ import { MainContext } from "../contexts/MainContext";
 import useMedia from "../hooks/MediaApi";
 import useTag from "../hooks/TagApi";
 import styles from "../styles/ModifyMedia.style";
+import Error from "../components/Error";
 
 const ModifyMedia = ({ navigation, route }) => {
   const file = route.params.file;
@@ -71,7 +72,7 @@ const ModifyMedia = ({ navigation, route }) => {
       newFile = (await getMediaDetailsAndSort([newFile]))[0];
       newFile = navigation.navigate("Single", { file: newFile });
     } catch (error) {
-      console.error(error);
+      Error("Saving changes failed.");
     }
   };
 
@@ -96,113 +97,112 @@ const ModifyMedia = ({ navigation, route }) => {
     description === file.description &&
     selectedTags.length === 0;
 
-
   return (
     <ScrollView style={styles.background}>
-      <View style={{backgroundColor: "#41436A"}}>
-      <View style={styles.info}>
-        <View>
-          <Text style={styles.header}>Title</Text>
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-              minLength: 3,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                onBlur={onBlur}
-                onChangeText={onChange}
-                onChange={(event) => setTitle(event.nativeEvent.text)}
-                value={value}
-                placeholder="Title"
-                autoCapitalize="words"
-                errorMessage={
-                  (errors.title?.type === "required" && (
-                    <Text>This is required.</Text>
-                  )) ||
-                  (errors.title?.type === "minLength" && (
-                    <Text>Min 3 chars!</Text>
-                  ))
-                }
-              />
-            )}
-            name="title"
-          />
-          <Text style={styles.header}>Description</Text>
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                onBlur={onBlur}
-                onChangeText={onChange}
-                onChange={(event) => setDescription(event.nativeEvent.text)}
-                value={value}
-                placeholder={file.description}
-              />
-            )}
-            name="description"
-          />
-        </View>
-
-        <View style={{ marginBottom: 30 }}>
-          <Text>Current tags: {file.tags.join(", ")}</Text>
-        </View>
-
-        <View>
-          {selectedTags.map((tag, idx) => {
-            return (
-              <Button
-                key={idx}
-                title={tag}
-                color="green"
-                onPress={() => removeTag(tag)}
-              />
-            );
-          })}
-        </View>
-
-        <View>
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                placeholder="Search for tags"
-                autoCapitalize="none"
-                onChange={(event) => search(event)}
-              />
-            )}
-            name="search"
-          />
+      <View style={{ backgroundColor: "#41436A" }}>
+        <View style={styles.info}>
           <View>
-            {foundTags.map((tag, idx) => (
-              <Button
-                key={idx}
-                title={tag}
-                onPress={() => selectTag(tag)}
-                color="#41436A"
-              />
-            ))}
-            {searchInput.length > 0 && !selectedTags.includes(searchInput) ? (
-              <Button
-                color="#984063"
-                title={`Add new tag '${searchInput}'`}
-                onPress={() => addNewTag()}
-              />
-            ) : null}
+            <Text style={styles.header}>Title</Text>
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+                minLength: 3,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  onChange={(event) => setTitle(event.nativeEvent.text)}
+                  value={value}
+                  placeholder="Title"
+                  autoCapitalize="words"
+                  errorMessage={
+                    (errors.title?.type === "required" && (
+                      <Text>This is required.</Text>
+                    )) ||
+                    (errors.title?.type === "minLength" && (
+                      <Text>Min 3 chars!</Text>
+                    ))
+                  }
+                />
+              )}
+              name="title"
+            />
+            <Text style={styles.header}>Description</Text>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  onChange={(event) => setDescription(event.nativeEvent.text)}
+                  value={value}
+                  placeholder={file.description}
+                />
+              )}
+              name="description"
+            />
+          </View>
+
+          <View style={{ marginBottom: 30 }}>
+            <Text>Current tags: {file.tags.join(", ")}</Text>
+          </View>
+
+          <View>
+            {selectedTags.map((tag, idx) => {
+              return (
+                <Button
+                  key={idx}
+                  title={tag}
+                  color="green"
+                  onPress={() => removeTag(tag)}
+                />
+              );
+            })}
+          </View>
+
+          <View>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder="Search for tags"
+                  autoCapitalize="none"
+                  onChange={(event) => search(event)}
+                />
+              )}
+              name="search"
+            />
+            <View>
+              {foundTags.map((tag, idx) => (
+                <Button
+                  key={idx}
+                  title={tag}
+                  onPress={() => selectTag(tag)}
+                  color="#41436A"
+                />
+              ))}
+              {searchInput.length > 0 && !selectedTags.includes(searchInput) ? (
+                <Button
+                  color="#984063"
+                  title={`Add new tag '${searchInput}'`}
+                  onPress={() => addNewTag()}
+                />
+              ) : null}
+            </View>
+          </View>
+          <View style={{ marginTop: 30 }}>
+            <Button
+              title="Save changes"
+              onPress={handleSubmit(save)}
+              disabled={buttonDisabled}
+            />
           </View>
         </View>
-        <View style={{ marginTop: 30 }}>
-          <Button
-            title="Save changes"
-            onPress={handleSubmit(save)}
-            disabled={buttonDisabled}
-          />
-        </View>
-      </View>
       </View>
     </ScrollView>
   );

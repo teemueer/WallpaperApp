@@ -18,6 +18,7 @@ import RedHeart from "../assets/Images/roundedHeartRed.svg";
 import { baseUrl } from "../utils/config";
 import styles from "../styles/Single.style";
 import { MainContext } from "../contexts/MainContext";
+import Error from "../components/Error";
 
 //!TODO: CLean styles, TextInput to add comment, comment Logic
 
@@ -93,7 +94,9 @@ const Single = ({ route, navigation }) => {
         fetchFavourites();
         setLikeState(!likeState);
       }
-    } catch (error) {}
+    } catch (error) {
+      Error("Adding favorite failed.");
+    }
   };
 
   const {
@@ -123,7 +126,7 @@ const Single = ({ route, navigation }) => {
         },
       ]);
     } catch (error) {
-      console.error("Comment()", error.message);
+      Error("Adding comment failed.");
     }
   };
 
@@ -146,7 +149,7 @@ const Single = ({ route, navigation }) => {
         ]);
       }
     } catch (error) {
-      console.error(error);
+      Error("Download failed.");
     }
   };
 

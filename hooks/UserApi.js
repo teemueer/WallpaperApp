@@ -1,25 +1,24 @@
-
-import {addAssetsToAlbumAsync} from "expo-media-library";
+import { addAssetsToAlbumAsync } from "expo-media-library";
 import { useContext } from "react";
 import { MainContext } from "../contexts/MainContext";
 import { baseUrl } from "../utils/config";
 import myFetch from "../utils/myFetch";
-import useFavourite from '../hooks/FavouriteApi';import useTag from "./TagApi";
+import useFavourite from "../hooks/FavouriteApi";
+import useTag from "./TagApi";
 
 const useUser = () => {
   const { user, setAvatar } = useContext(MainContext);
-  const {postTag} = useTag();
+  const { postTag } = useTag();
   const { getFavourites } = useFavourite();
 
   const getUserFavourites = async (user) => {
     let favourites = await getFavourites();
-    favourites = favourites.map(fav => {
-      if (fav.user_id === user.user_id)
-        return fav.file_id;
-    })
-    user = {...user, favourites};
+    favourites = favourites.map((fav) => {
+      if (fav.user_id === user.user_id) return fav.file_id;
+    });
+    user = { ...user, favourites };
     return user;
-  }
+  };
 
   const getUserByToken = async () => {
     try {
@@ -42,35 +41,35 @@ const useUser = () => {
 
   const deleteUserAvatar = async () => {
     try {
-      const getAvatarData = await myFetch(`${baseUrl}/tags/avatar_${user.user_id}`);
+      const getAvatarData = await myFetch(
+        `${baseUrl}/tags/avatar_${user.user_id}`
+      );
       console.log(getAvatarData.length);
-      if(!getAvatarData.length == 0){
-      await myFetch(`${baseUrl}/media/${getAvatarData[0].file_id}`, "DELETE");
+      if (!getAvatarData.length == 0) {
+        await myFetch(`${baseUrl}/media/${getAvatarData[0].file_id}`, "DELETE");
       }
-      return
+      return;
     } catch (error) {
-       throw new Error(error.message);
+      throw new Error(error.message);
     }
-  }
+  };
 
-  const postUserAvatar = async (data) =>{
+  const postUserAvatar = async (data) => {
     console.log(data);
-    
+
     try {
       const json = await myFetch(`${baseUrl}/media`, "POST", data, false);
-      await postTag({file_id:json.file_id, tag:`avatar_${user.user_id}`})
+      await postTag({ file_id: json.file_id, tag: `avatar_${user.user_id}` });
       return json;
     } catch (error) {
       throw new Error(error.message);
     }
-    
-  }
-
+  };
 
   const getUserAvatarById = async (userId) => {
     try {
       const avatar = await myFetch(`${baseUrl}/tags/avatar_${userId}`);
-      return avatar
+      return avatar;
     } catch (error) {
       throw new Error(error.message);
     }

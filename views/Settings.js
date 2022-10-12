@@ -7,6 +7,7 @@ import useUser from "../hooks/UserApi";
 import useMedia from "../hooks/MediaApi";
 import { Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import Error from "../components/Error";
 
 const Settings = ({ navigation }) => {
   const {
@@ -50,7 +51,7 @@ const Settings = ({ navigation }) => {
       console.log(res);
       getUserAvatar();
     } catch (error) {
-      console.error(error.message);
+      Error("Upload failed.");
     } finally {
       setIsLoading(false);
     }
@@ -69,7 +70,7 @@ const Settings = ({ navigation }) => {
     try {
       await modifyUser(credentials);
     } catch (error) {
-      console.error(error.message);
+      Error("Changing credentials failed.");
     }
   };
 
@@ -94,14 +95,23 @@ const Settings = ({ navigation }) => {
           backgroundColor: "white",
           flex: 1,
           alignItems: "center",
-          borderTopLeftRadius:45,
-          borderTopRightRadius:45,
+          borderTopLeftRadius: 45,
+          borderTopRightRadius: 45,
         }}
       >
-        <View style={{ display: "flex", width: "100%", alignItems: "center" , marginTop:'15%'}}>
-          <Text style={{marginBottom:20, fontWeight:'700', fontSize:24}}>Change Avatar.</Text>
+        <View
+          style={{
+            display: "flex",
+            width: "100%",
+            alignItems: "center",
+            marginTop: "15%",
+          }}
+        >
+          <Text style={{ marginBottom: 20, fontWeight: "700", fontSize: 24 }}>
+            Change Avatar.
+          </Text>
           <View style={{ flexDirection: "row" }}>
-            <View style={{marginRight:'10%'}}>
+            <View style={{ marginRight: "10%" }}>
               <TouchableOpacity onPress={() => onSelect()}>
                 <Image
                   source={{ uri: image?.uri || avatar }}
@@ -116,21 +126,36 @@ const Settings = ({ navigation }) => {
                 />
               </TouchableOpacity>
             </View>
-            <View style={{ justifyContent:'center'}}>
-              <Button style={{marginBottom:20}} color={'#984063'} onPress={() => onSelect()}>choose file</Button>
+            <View style={{ justifyContent: "center" }}>
+              <Button
+                style={{ marginBottom: 20 }}
+                color={"#984063"}
+                onPress={() => onSelect()}
+              >
+                choose file
+              </Button>
               <Button
                 title="submit"
                 loading={isLoading}
                 disabled={!image}
                 onPress={() => imageUpload()}
-                color={'#FE9677'}
+                color={"#FE9677"}
               ></Button>
             </View>
           </View>
         </View>
 
-        <View style={{ width: "80%", marginTop:'10%'}}>
-          <Text style={{marginBottom:20, fontWeight:'700', fontSize:24, alignSelf:'center'}}>Modify User Details.</Text>
+        <View style={{ width: "80%", marginTop: "10%" }}>
+          <Text
+            style={{
+              marginBottom: 20,
+              fontWeight: "700",
+              fontSize: 24,
+              alignSelf: "center",
+            }}
+          >
+            Modify User Details.
+          </Text>
           <Controller
             control={control}
             rules={{
@@ -205,7 +230,7 @@ const Settings = ({ navigation }) => {
           <Button
             title="save changes"
             onPress={handleSubmit(changeCredentials)}
-            color={'#984063'}
+            color={"#984063"}
           ></Button>
         </View>
       </View>

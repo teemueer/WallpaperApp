@@ -8,6 +8,7 @@ import useUser from "../hooks/UserApi";
 import styles from "../styles/Register.style";
 import Wall from "../assets/Images/wall.svg";
 import useLogin from "../hooks/LoginApi";
+import Error from "../components/Error";
 
 const Register = ({ navigation }) => {
   const { postUser, checkUsername } = useUser();
@@ -41,7 +42,7 @@ const Register = ({ navigation }) => {
         navigation.navigate("Login");
       }
     } catch (error) {
-      console.error("register():", error.message);
+      Error("Registration failed.");
     }
   };
 
