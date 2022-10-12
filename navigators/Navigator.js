@@ -153,6 +153,7 @@ const TabScreen = ({ navigation }) => {
               backgroundColor: "rgba(65, 67, 106, 1)",
               borderBottomWidth: 0,
             },
+            headerShown:false,
             headerTintColor: "#fff",
             headerTitleStyle: {
               fontSize: 24,
@@ -232,6 +233,7 @@ const StackScreen = () => {
             fontWeight: "500",
           },
           headerShadowVisible: false,
+          headerTitleAlign:'center'
         })}
       />
       <Stack.Screen
@@ -289,6 +291,7 @@ const StackScreen = () => {
         name="Register"
         component={Register}
         options={{
+          headerShown:false,
           headerStyle: {
             backgroundColor: "rgba(65, 67, 106, 1)",
             borderBottomWidth: 0,
