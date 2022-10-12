@@ -90,7 +90,7 @@ const TabScreen = ({ navigation }) => {
             name="Profile"
             component={Profile}
             options={{
-              headerTitleAlign: 'center',
+              headerTitleAlign: "center",
               tabBarIcon: () => <Icon name="person" color={iconColor} />,
               headerStyle: {
                 backgroundColor: "rgba(65, 67, 106, 1)",
@@ -121,7 +121,7 @@ const TabScreen = ({ navigation }) => {
             component={Upload}
             options={{
               tabBarIcon: () => <Icon name="cloud-upload" color={iconColor} />,
-              headerTitleAlign: 'center',
+              headerTitleAlign: "center",
               headerStyle: {
                 backgroundColor: "rgba(65, 67, 106, 1)",
                 borderBottomWidth: 0,
@@ -182,7 +182,7 @@ const TabScreen = ({ navigation }) => {
         name="Search"
         component={Search}
         options={{
-          headerTitleAlign: 'center',
+          headerTitleAlign: "center",
           tabBarIcon: () => <Icon name="search" color={iconColor} />,
           headerStyle: {
             backgroundColor: "rgba(65, 67, 106, 1)",
@@ -244,7 +244,7 @@ const StackScreen = () => {
         name="Settings"
         component={Settings}
         options={{
-          headerTitleAlign: 'center',
+          headerTitleAlign: "center",
           headerStyle: {
             backgroundColor: "rgba(65, 67, 106, 1)",
             borderBottomWidth: 0,
@@ -262,7 +262,7 @@ const StackScreen = () => {
         name="ModifyMedia"
         component={ModifyMedia}
         options={{
-          headerTitleAlign: 'center',
+          headerTitleAlign: "center",
           headerStyle: {
             backgroundColor: "rgba(65, 67, 106, 1)",
             borderBottomWidth: 0,
@@ -277,7 +277,6 @@ const StackScreen = () => {
         }}
       />
       <Stack.Screen
-<<<<<<< HEAD
         name="Login"
         component={Login}
         options={{
@@ -292,12 +291,10 @@ const StackScreen = () => {
             fontWeight: "500",
           },
           headerShadowVisible: false,
-          headerShown:false 
+          headerShown: false,
         }}
       />
       <Stack.Screen
-=======
->>>>>>> c2d62b5d58d525eb4111fbec4331b90978eab559
         name="Register"
         component={Register}
         options={{
