@@ -64,7 +64,8 @@ const Register = ({ navigation }) => {
             rules={{
               required: { value: true, message: "Username is required!" },
               validate: async (value) => {
-                if (!(await checkUsername(value))) {
+                const usernameAvailable = await checkUsername(value);
+                if (!usernameAvailable) {
                   return "Username is already taken!";
                 }
                 return true;
@@ -81,7 +82,12 @@ const Register = ({ navigation }) => {
                 value={value}
                 placeholder="Username"
                 autoCapitalize="none"
-                errorMessage={errors.username && errors.username.message}
+                errorMessage={
+                  (errors.username?.type === "minLength" && (
+                    <Text>Min 3 chars!</Text>
+                  )) ||
+                  (errors.username && <Text>{errors.username.message}</Text>)
+                }
               />
             )}
             name="username"
@@ -91,11 +97,12 @@ const Register = ({ navigation }) => {
           <Controller
             control={control}
             rules={{
-              required: { value: true, message: "Email is required!" },
+              required: { value: true, message: "This field is required." },
+              maxLength: { value: 254, message: "Email too long" },
               pattern: {
                 value:
-                  /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/,
-                message: "Not an email address!",
+                  /^[a-z0-9]([a-z0-9._-]+)?@[a-z0-9][a-z0-9.-]+.[a-z]([a-z0-9]+)?[a-z]$/i,
+                message: "Must be valid email.",
               },
             }}
             render={({ field: { onChange, onBlur, value } }) => (
@@ -108,7 +115,7 @@ const Register = ({ navigation }) => {
                 placeholder="email"
                 autoCapitalize="none"
                 errorMessage={
-                  errors.username && <Text>This field is required!</Text>
+                  errors.email && <Text>{errors.email.message}</Text>
                 }
               />
             )}
@@ -118,7 +125,15 @@ const Register = ({ navigation }) => {
         <View style={styles.input}>
           <Controller
             control={control}
-            rules={{ required: true }}
+            rules={{
+              required: { value: true, message: "This field is required." },
+              minLength: { value: 5, message: "Minimum 5 characters." },
+              pattern: {
+                value: /.*[0-9].*[\p{Lu}].*/u,
+                message:
+                  "Password must contain at least one number and one capital letter",
+              },
+            }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Input
                 onBlur={onBlur}
@@ -128,7 +143,7 @@ const Register = ({ navigation }) => {
                 autoCapitalize="none"
                 secureTextEntry={true}
                 errorMessage={
-                  errors.username && <Text>This field is required!</Text>
+                  errors.password && <Text>{errors.password.message}</Text>
                 }
               />
             )}
@@ -139,26 +154,23 @@ const Register = ({ navigation }) => {
           <Controller
             control={control}
             rules={{
-              required: { value: true, message: "This field is required!" },
-              validate: (value) => {
-                const { password } = getValues();
-                if (value === password) {
-                  return true;
-                } else {
-                  return "Passwords do not match.";
-                }
-              },
+              validate: (value) =>
+                value === getValues("password")
+                  ? true
+                  : "Passwords do not match",
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Input
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
-                secureTextEntry={true}
-                placeholder="re-enter password"
+                placeholder="password"
                 autoCapitalize="none"
+                secureTextEntry={true}
                 errorMessage={
-                  errors.username && <Text>This field is required!</Text>
+                  errors.confirmPassword && (
+                    <Text>{errors.confirmPassword.message}</Text>
+                  )
                 }
               />
             )}
