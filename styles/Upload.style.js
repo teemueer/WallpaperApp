@@ -1,8 +1,12 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   background: {
     backgroundColor: "rgba(65, 67, 106, 1)",
+  },
+  spacer: {
+    height: 12,
+    width: "100%",
   },
   container: {
     width: "100%",
@@ -10,7 +14,7 @@ export default StyleSheet.create({
     height: "100%",
     borderTopRightRadius: 45,
     borderTopLeftRadius: 45,
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
   gradient: {
     position: "absolute",
@@ -33,7 +37,7 @@ export default StyleSheet.create({
     alignSelf: "center",
     marginTop: 30,
     marginBottom: 30,
-    borderRadius: 8
+    borderRadius: 8,
   },
   input: {
     backgroundColor: "#F7F4F4",
@@ -52,21 +56,22 @@ export default StyleSheet.create({
 
     elevation: 5,
   },
-  inputBackground:{
-  borderRadius: 30,
+  inputBackground: {
+    borderRadius: 30,
     position: "absolute",
     height: "110%",
     width: "85%",
-    alignSelf:'center',
-    paddingTop: 5
+    alignSelf: "center",
+    paddingTop: 5,
   },
-  buttonContainer:{
+  buttonContainer: {
     flex: 1,
     flexDirection: "row",
-    marginTop: 35,
+    justifyContent: "space-evenly",
+    width: "85%",
+    marginTop: "7%",
   },
-  buttonStyle:{
-    height: 60,
+  buttonStyle: {
     width: 140,
     padding: 20,
     borderRadius: 10,
@@ -80,7 +85,9 @@ export default StyleSheet.create({
 
     elevation: 6,
   },
-  buttonText:{
-    color: "white", fontSize: 24, fontWeight: "bold" ,
-  }
+  buttonText: {
+    color: "white",
+    fontSize: 24,
+    fontWeight: "bold",
+  },
 });

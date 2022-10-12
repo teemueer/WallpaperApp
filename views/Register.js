@@ -129,11 +129,6 @@ const Register = ({ navigation }) => {
             rules={{
               required: { value: true, message: "This field is required." },
               minLength: { value: 5, message: "Minimum 5 characters." },
-              pattern: {
-                value: /.*[0-9].*[\p{Lu}].*/u,
-                message:
-                  "Password must contain at least one number and one capital letter",
-              },
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Input

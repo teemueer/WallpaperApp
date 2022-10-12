@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Card, Image, Input, Text } from "@rneui/base";
 import { MainContext } from "../contexts/MainContext";
 import { TouchableOpacity, View } from "react-native";
@@ -16,8 +16,9 @@ const Settings = ({ navigation }) => {
     getUserAvatar,
     postUserAvatar,
     modifyUser,
+    getUserByToken,
   } = useUser();
-  const { user, avatar } = useContext(MainContext);
+  const { user, avatar , setUser} = useContext(MainContext);
   const [image, setImage] = useState(null);
   const { update, setUpdate } = useContext(MainContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -35,6 +36,7 @@ const Settings = ({ navigation }) => {
     }
   };
 
+
   const imageUpload = async () => {
     const ext = image.uri.split(".").pop();
     const formData = new FormData();
@@ -49,15 +51,16 @@ const Settings = ({ navigation }) => {
       await deleteUserAvatar();
       const res = await postUserAvatar(formData);
       console.log(res);
-      await getUserAvatar();
     } catch (error) {
       Error("Upload failed.");
     } finally {
       setIsLoading(false);
+      getUserAvatar(user.user_id);
     }
   };
 
-  const changeCredentials = async (credentials) => {
+
+  const changeCredentials =  async(credentials) => {
     if (credentials.username === "") {
       delete credentials.username;
     }
@@ -67,11 +70,12 @@ const Settings = ({ navigation }) => {
     if (credentials.password === "") {
       delete credentials.password;
     }
-    try {
-      await modifyUser(credentials);
-    } catch (error) {
-      Error("Changing credentials failed.");
-    }
+     const a =  await modifyUser(credentials);
+     if(a.message){
+      Alert.alert("Details updated!")
+      const user =  await getUserByToken();
+      setUser(user);
+     }
   };
 
   const {
@@ -161,6 +165,7 @@ const Settings = ({ navigation }) => {
             rules={{
               required: false,
               validate: async (value) => {
+                if(value.length === 0){return true}
                 if (!(await checkUsername(value))) {
                   return "Username is already taken!";
                 }
@@ -200,6 +205,7 @@ const Settings = ({ navigation }) => {
                 value={value}
                 keyboardType="email-address"
                 textContentType="emailAddress"
+                autoCapitalize="none"
                 placeholder={user.email}
                 errorMessage={
                   errors.username && <Text>This field is required!</Text>

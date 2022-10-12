@@ -8,14 +8,8 @@ import useMedia from "../hooks/MediaApi";
 import useTag from "../hooks/TagApi";
 
 const Home = ({ navigation }) => {
-  const { getMediaByTag } = useTag();
-  const { getUserAvatar } = useUser();
-  const [media, setMedia] = useState([]);
   const { allMedia, allTags } = useMedia();
 
-  useEffect(() => {
-    getUserAvatar();
-  }, []);
 
   return (
     <View style={styles.background}>
