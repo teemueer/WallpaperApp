@@ -202,7 +202,6 @@ const ModifyMedia = ({ navigation, route }) => {
             <Button
               title="Save changes"
               onPress={handleSubmit(save)}
-              buttonStyle={styles.buttonStyle}
               disabled={buttonDisabled}
             />
           </View>
