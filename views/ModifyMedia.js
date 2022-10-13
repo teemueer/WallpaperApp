@@ -1,7 +1,7 @@
-import { Input } from "@rneui/base";
+import { Button, Input } from "@rneui/base";
 import { useContext, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { View, Image, Text, Button, Modal, ScrollView } from "react-native";
+import { View, Image, Text, Modal, ScrollView } from "react-native";
 import { MainContext } from "../contexts/MainContext";
 import useMedia from "../hooks/MediaApi";
 import useTag from "../hooks/TagApi";
@@ -149,13 +149,14 @@ const ModifyMedia = ({ navigation, route }) => {
             <Text>Current tags: {file.tags.join(", ")}</Text>
           </View>
 
-          <View>
+          <View style={styles.tagContainer}>
             {selectedTags.map((tag, idx) => {
               return (
                 <Button
                   key={idx}
                   title={tag}
                   color="green"
+                  buttonStyle={styles.buttonStyle}
                   onPress={() => removeTag(tag)}
                 />
               );
@@ -177,11 +178,12 @@ const ModifyMedia = ({ navigation, route }) => {
               )}
               name="search"
             />
-            <View>
+            <View style={styles.tagContainer}>
               {foundTags.map((tag, idx) => (
                 <Button
                   key={idx}
                   title={tag}
+                  buttonStyle={styles.buttonStyle}
                   onPress={() => selectTag(tag)}
                   color="#41436A"
                 />
@@ -190,6 +192,7 @@ const ModifyMedia = ({ navigation, route }) => {
                 <Button
                   color="#984063"
                   title={`Add new tag '${searchInput}'`}
+                  buttonStyle={styles.buttonStyle}
                   onPress={() => addNewTag()}
                 />
               ) : null}
@@ -199,6 +202,7 @@ const ModifyMedia = ({ navigation, route }) => {
             <Button
               title="Save changes"
               onPress={handleSubmit(save)}
+              buttonStyle={styles.buttonStyle}
               disabled={buttonDisabled}
             />
           </View>
