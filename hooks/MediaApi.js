@@ -170,6 +170,7 @@ const useMedia = () => {
   };
 
   useEffect(() => {
+    console.log("updating allmedia...");
     getAllMedia().then((allMedia) => {
       setAllMedia(allMedia);
       let allTags = [];
