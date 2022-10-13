@@ -10,7 +10,6 @@ import useTag from "../hooks/TagApi";
 const Home = ({ navigation }) => {
   const { allMedia, allTags } = useMedia();
 
-
   return (
     <View style={styles.background}>
       <View style={styles.feed}>
