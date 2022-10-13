@@ -109,6 +109,7 @@ const useMedia = () => {
       let json = await myFetch(`${baseUrl}/media/user`, "GET");
       json = await getMediaDetailsAndSort(json);
       json = json.filter((media) => {
+        if (media.tags.length === 0) return media;
         for (const tag of media.tags) {
           if (!tag.startsWith("avatar_")) return media;
         }
